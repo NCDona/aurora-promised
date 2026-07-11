@@ -10,22 +10,24 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Montserrat', 'Noto Serif TC', serif; background-color: #faf7f2; color: #4a3e3d; line-height: 1.8; overflow-x: hidden; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 15px; }
         
-        header { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(224, 203, 189, 0.3); }
+        /* 滿版容器設定 */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        
+        header { padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(224, 203, 189, 0.3); }
         .logo { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 600; color: #b18f6a; text-decoration: none; }
         nav { display: flex; gap: 15px; }
         nav a { text-decoration: none; color: #726259; font-size: 13px; }
 
-        /* 封面區塊 (靜態極光圖) */
-        .hero-section { position: relative; width: 100%; height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; border-radius: 20px; overflow: hidden; margin: 20px 0; }
+        /* 滿版封面區 */
+        .hero-section { position: relative; width: 100%; height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; }
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('./pic6.jpg') center/cover no-repeat; z-index: -1; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); z-index: 0; }
         .hero-content { position: relative; z-index: 1; padding: 20px; }
         .tagline { font-family: 'Cinzel', serif; font-size: 1.5rem; letter-spacing: 5px; margin-bottom: 10px; }
         .chinese-tagline { font-family: 'Noto Serif TC', serif; font-size: 2rem; letter-spacing: 2px; }
 
-        /* 故事區 */
+        /* 故事與相簿區 */
         .section-title { font-size: 22px; margin: 40px 0 20px; text-align: center; color: #5c4a42; }
         .story-card { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(228, 203, 189, 0.3); }
         .story-info { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid rgba(228, 203, 189, 0.3); margin-bottom: 20px; }
@@ -51,22 +53,23 @@
 </head>
 <body>
 
+    <header class="container">
+        <a href="#" class="logo">K <span>&</span> N</a>
+        <nav><a href="#story">我們的故事</a><a href="#gallery">相簿</a></nav>
+    </header>
+
+    <!-- 滿版封面 -->
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="tagline">UNDER THE AURORA, WE PROMISED</div>
+            <div class="chinese-tagline">極光之約</div>
+        </div>
+    </section>
+
+    <!-- 內容容器 -->
     <div class="container">
-        <header>
-            <a href="#" class="logo">K <span>&</span> N</a>
-            <nav><a href="#story">我們的故事</a><a href="#gallery">相簿</a></nav>
-        </header>
-
-        <!-- 封面區 -->
-        <section class="hero-section">
-            <div class="hero-bg"></div>
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <div class="tagline">UNDER THE AURORA, WE PROMISED</div>
-                <div class="chinese-tagline">極光之約</div>
-            </div>
-        </section>
-
         <section id="story">
             <h2 class="section-title">我們的故事</h2>
             <div class="story-card">
