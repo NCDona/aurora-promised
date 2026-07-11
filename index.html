@@ -12,7 +12,6 @@
         body { font-family: 'Montserrat', 'Noto Serif TC', serif; background-color: #faf7f2; color: #4a3e3d; line-height: 1.8; overflow-x: hidden; }
         .container { max-width: 1000px; margin: 0 auto; padding: 0 15px; }
         
-        /* 手機版 Header */
         header { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(224, 203, 189, 0.3); }
         .logo { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 600; color: #b18f6a; text-decoration: none; }
         nav { display: flex; gap: 15px; }
@@ -22,7 +21,6 @@
         .main-title h1 { font-family: 'Noto Serif TC', serif; font-size: 32px; color: #5c4a42; margin-bottom: 10px; }
         .tagline { font-family: 'Cinzel', serif; font-size: 14px; color: #b18f6a; letter-spacing: 3px; }
         
-        /* 斷行控制 */
         .mobile-break { display: inline; }
         @media (max-width: 768px) { .mobile-break { display: block; } }
 
@@ -31,8 +29,12 @@
         .carousel-slide { min-width: 100%; height: 100%; }
         .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 故事卡片 */
         .section-title { font-size: 22px; margin: 40px 0 20px; text-align: center; color: #5c4a42; }
+        
+        /* 浪漫相簿標題區加上箭頭 */
+        .gallery-header { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .gallery-nav { color: #b18f6a; font-size: 20px; cursor: pointer; }
+
         .story-card { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(228, 203, 189, 0.3); }
         .story-info { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid rgba(228, 203, 189, 0.3); margin-bottom: 20px; }
         .info-item { display: flex; align-items: center; gap: 12px; }
@@ -112,7 +114,12 @@
         </section>
 
         <section id="gallery">
-            <h2 class="section-title">浪漫相簿</h2>
+            <!-- 這裡新增了箭頭 -->
+            <div class="gallery-header">
+                <div class="gallery-nav"><i class="fa-solid fa-chevron-left"></i></div>
+                <h2 class="section-title" style="margin: 40px 0;">浪漫相簿</h2>
+                <div class="gallery-nav"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
             <div class="gallery-grid">
                 <div class="gallery-item"><img src="./pic1.jpg" alt="1"></div>
                 <div class="gallery-item"><img src="./pic2.jpg" alt="2"></div>
