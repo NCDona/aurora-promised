@@ -74,46 +74,76 @@
         .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
         .sl-wrapper .sl-spinner { color: #ffffff; }
 
-        /* 電腦版設定 (>= 768px) */
-        @media (min-width: 768px) {
-            .story-card { 
-                display: grid; 
-                /* 180px 左邊 | 1px 分隔線 | 彈性文字區 | 固定/彈性圖片區 */
-                grid-template-columns: 180px 1px minmax(0, 1fr) auto; 
-                gap: 25px; 
-                align-items: center; 
-                padding: 35px 35px; 
-            }
-            .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
-            .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
-            .story-content { padding: 0 5px; display: flex; flex-direction: column; justify-content: center; }
-    
-            /* 讓圖片在視窗變窄時可以等比例微縮，不會超出邊框 */
-            .story-frame { 
-                margin-top: 0; 
-                width: 100%;
-                max-width: 280px;
-                min-width: 200px;
-                aspect-ratio: 4 / 5; 
-                max-height: 380px; 
-            }
-        }
-        /* RWD 響應式：手機版設定 (< 767px) */
-        @media (max-width: 767px) {
-            header { padding: 15px 20px; flex-direction: column; gap: 10px; }
-            nav { gap: 18px; }
-            nav a { font-size: 15px; }
-            .hero-names { font-size: 1.8rem; }
-            .hero-tagline { font-size: 0.95rem; letter-spacing: 3px; }
-            
-            .gallery-container { padding: 0 25px; }
-            .swiper-button-prev { left: -5px !important; transform: scale(0.7); }
-            .swiper-button-next { right: -5px !important; transform: scale(0.7); }
-            
-            .gift-note { padding: 20px 15px; }
-            .gift-title { font-size: 1.1rem; }
-            .gift-desc { font-size: 0.82rem; }
-        }
+        /* 中間文字區塊：強制不折行 */
+.story-content {
+    white-space: nowrap;
+}
+
+/* 電腦版設定 (>= 1100px)：空間足夠時才展開三欄橫向排版 */
+@media (min-width: 1100px) {
+    .story-card { 
+        display: grid; 
+        grid-template-columns: 180px 1px auto 280px; 
+        gap: 30px; 
+        align-items: center; 
+        padding: 35px 40px; 
+    }
+    .story-info { 
+        border-bottom: 0; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        gap: 10px; 
+        margin-bottom: 0; 
+        padding-bottom: 0; 
+    }
+    .divider { 
+        display: block;
+        background-color: rgba(228, 203, 189, 0.5); 
+        width: 1px; 
+        height: 100%; 
+    }
+    .story-content { 
+        padding: 0 10px; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+    }
+    .story-frame { 
+        margin-top: 0; 
+        width: 280px; 
+        aspect-ratio: 4 / 5; 
+        max-height: 380px; 
+    }
+}
+
+/* 窄螢幕/平板/手機 (< 1100px)：只要空間不足以完全放下不折行的文字，就立刻轉為單欄 */
+@media (max-width: 1099px) {
+    .divider { display: none; }
+    .story-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 30px 20px;
+    }
+    .story-info {
+        border-bottom: 1px solid rgba(228, 203, 189, 0.3);
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+        width: 100%;
+        align-items: center;
+    }
+    .story-content {
+        white-space: normal; /* 轉為單欄時恢復自然換行，符合手機閱讀習慣 */
+        text-align: center;
+    }
+    .story-frame {
+        width: 100%;
+        max-width: 320px;
+        margin-top: 20px;
+    }
+}
     </style>
 </head>
 
