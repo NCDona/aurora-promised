@@ -9,41 +9,45 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.css" />
     
-    
-   <style>
+    <style>
+        /* 基礎設定 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Montserrat', 'Noto Serif TC', serif; background-color: #faf7f2; color: #4a3e3d; line-height: 1.8; overflow-x: hidden; }
+        
+        /* Header 導覽列 */
         header { width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(224, 203, 189, 0.3); background: #faf7f2; }
         .logo img { width: 40px; height: auto; display: block; }
-        .mobile-break {display: none;}
-
-        @media (max-width: 767px) {.mobile-break {display: block;}}
         nav { display: flex; gap: 30px; }
         nav a { text-decoration: none; color: #726259; font-size: 18px; font-weight: 600; transition: color 0.3s; letter-spacing: 1px; }
         nav a:hover { color: #b18f6a; }
+
+        /* 【調整 1】整體容器加寬至 1150px */
+        .container { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
         
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        /* Hero 視覺區 */
         .hero-section { position: relative; width: 100%; height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; }
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('./aurora_1.webp') center/cover no-repeat; z-index: -1; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.35); z-index: 0; }
         .hero-content { position: relative; z-index: 1; padding: 20px; }
         .hero-names { font-family: 'Microsoft JhengHei', serif; font-size: 2.5rem; margin-bottom: 15px; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .hero-names i { font-size: 0.6em; display: inline-block; vertical-align: middle; }
         .hero-tagline { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 6px; margin-bottom: 10px; opacity: 0.9; }
-        .hero-names i {font-size: 0.6em; display: inline-block;vertical-align: middle;}
 
         .section-title { font-size: 22px; margin: 40px 0 20px; text-align: center; color: #5c4a42; }
 
+        /* 故事卡片 */
         .story-card { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(228, 203, 189, 0.3); }
         #announcement .story-card { display: block; text-align: center; padding: 40px 20px; }
-        #announcement .story-card i {margin: 0 auto 20px auto; font-size: 35px; color: #b18f6a; }
-
+        #announcement .story-card i { margin: 0 auto 20px auto; font-size: 35px; color: #b18f6a; }
         .story-info { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid rgba(228, 203, 189, 0.3); margin-bottom: 20px; }
         .info-item { display: flex; align-items: center; gap: 12px; }
         .info-icon { color: #b18f6a; width: 25px; text-align: center; }
-        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Microsoft JhengHei", Arial, sans-serif; }
-        .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; spect-ratio: 1 / 1; }
+        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif; white-space: nowrap; }
+        
+        .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+        /* 相簿側寫 */
         .gallery-message { font-size: 16px; text-align: center; color: #808080; }
         .gallery-container { position: relative; margin-bottom: 60px; padding: 0 40px; }
         .swiper { width: 100%; padding: 20px 0; }
@@ -51,24 +55,48 @@
         .gallery-item-link:hover { transform: translateY(-5px); }
         .gallery-item-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .swiper-button-next, .swiper-button-prev { color: #b18f6a !important; }
-        .sl-overlay { background: rgba(74, 62, 61, 0.9) !important; }
-        /* 修改關閉按鈕 (✖) 顏色 */
-        .sl-wrapper .sl-close {color: #ffffff;}
-        /* 修改左右切換按鈕 (← 和 →) 顏色 */
-        .sl-wrapper .sl-navigation button {color: #ffffff; font-size: 4rem !important;}
-        /* （選填）修改載入中文字顏色 */
-        .sl-wrapper .sl-spinner {color: #ffffff;}
-        .swiper-button-prev {left: -15px !important; /* 數字越負，往左移越遠 */}
-        /* 右箭頭往右推 */
-        .swiper-button-next {right: -15px !important; /* 數字越負，往右移越遠 */}
+        .swiper-button-prev { left: -15px !important; }
+        .swiper-button-next { right: -15px !important; }
 
-       
-       @media (min-width: 768px) {
-       .story-card { display: grid; grid-template-columns: 200px 1px 1.5fr 250px; gap: 20px; align-items: stretch; padding: 30px; }
-       .story-info { border-bottom: 0; border-right: none; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
-       .divider { background-color: rgba(228, 203, 189, 0.5);width: 1px;height: 100%;}
-       .story-content { padding: 0 10px; display: flex;  flex-direction: column; justify-content: center; }
-       .story-frame img { width: 100%; hdisplay: flex; align-items: center; }
+        /* Lightbox 燈箱套件調色 */
+        .sl-overlay { background: rgba(74, 62, 61, 0.9) !important; }
+        .sl-wrapper .sl-close { color: #ffffff; }
+        .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
+        .sl-wrapper .sl-spinner { color: #ffffff; }
+
+        /* 電腦版設定 (>= 768px) */
+        @media (min-width: 768px) {
+            .story-card { 
+                display: grid; 
+                /* 調整欄位比例：中間文字(1fr)與右側圖片(auto)自然靠攏 */
+                grid-template-columns: 180px 1px 1fr auto; 
+                gap: 30px; /* 控制文字與圖片之間的黃金距離 */
+                align-items: center; 
+                padding: 35px 40px; 
+            }
+            .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
+            .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
+            .story-content { padding: 0 10px; display: flex; flex-direction: column; justify-content: center; }
+    
+            /* 右側圖片寬度固定為 300px，直橫比 4:5 保持質感 */
+            .story-frame { 
+                margin-top: 0; 
+                width: 300px;
+                aspect-ratio: 4 / 5; 
+                max-height: 380px; 
+            }
+        }
+        /* RWD 響應式：手機版設定 (< 767px) */
+        @media (max-width: 767px) {
+            header { padding: 15px 20px; flex-direction: column; gap: 10px; }
+            nav { gap: 18px; }
+            nav a { font-size: 15px; }
+            .hero-names { font-size: 1.8rem; }
+            .hero-tagline { font-size: 0.95rem; letter-spacing: 3px; }
+            
+            .gallery-container { padding: 0 25px; }
+            .swiper-button-prev { left: -5px !important; transform: scale(0.7); }
+            .swiper-button-next { right: -5px !important; transform: scale(0.7); }
         }
     </style>
 </head>
@@ -98,11 +126,11 @@
             <div class="story-card">
                 <i class="fa-solid fa-champagne-glasses"></i>
                 <h3 style="font-family: 'Noto Serif TC', serif; font-size: 22px; color: #5c4a42; margin-bottom: 25px;">分享喜悅</h3>
-                <p style="font-size: 15px; color: #726259; line-height: 1.8; max-width: 500px; margin: 0 auto;">
-                我們已於 2026 年 9 月 19 日完成結婚登記。<br>
-                選擇以簡單的方式邁向新階段，因此沒有舉辦婚宴。<br>
-                雖然沒有宴客，但我們仍然想把這份喜悅<br class="mobile-break">分享給最重視的你。
-               </p>
+                <p style="font-size: 15px; color: #726259; line-height: 1.8; max-width: 550px; margin: 0 auto;">
+                    我們已於 2026 年 9 月 19 日完成結婚登記。<br>
+                    選擇以簡單的方式邁向新階段，因此沒有舉辦婚宴。<br>
+                    雖然沒有宴客，但我們仍然想把這份喜悅<br class="mobile-break">分享給最重視的你。<br>
+                </p>
             </div>
         </section>
 
@@ -110,11 +138,11 @@
             <h2 class="section-title">極光之約</h2>
             <div class="story-card">
                 <div class="story-info">
-                    <div class="info-item"><div class="info-icon"><i class="fa-solid fa-heart"></i></div><div class="info-text"><p style="font-size: 16px; font-weight: 600;">冠霖 ＆ 念臻</p></div></div>
+                    <div class="info-item"><div class="info-icon"><i class="fa-solid fa-heart"></i></div><div class="info-text"><p>冠霖 ＆ 念臻</p></div></div>
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-calendar-days"></i></div><div class="info-text"><p>2026 / 03 / 21</p></div></div>
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-location-dot"></i></div><div class="info-text"><p>阿拉斯加．費爾班克斯</p></div></div>
                 </div>
-                 <div class="divider"></div>
+                <div class="divider"></div>
                 <div class="story-content">
                     <p>人們說，看見極光就會幸福一輩子。<br>
                         從 2018 年相識，到跨越距離與時差的考驗，<br>
@@ -129,12 +157,13 @@
                         我們許下了一生的承諾。<br>
                         這不僅僅是一場追尋光的旅程，<br>
                         更是我們邁向人生新階段的起點。<br>
-                        願將這份來自天際的幸福與美好傳遞給您。</p>
+                        願將這份來自天際的幸福與美好傳遞給您。
+                    </p>
                 </div>
                 <div class="story-frame"><img src="aurora_2.webp" alt="故事照" loading="lazy"></div>
             </div>
         </section>
-
+        
         <section id="gallery">
             <h2 class="section-title">幸福側寫</h2>
             <h4 class="gallery-message">♡ 婚紗照製作中，Coming Soon...♡</h4>
@@ -170,7 +199,6 @@
 
         if (wrapper) {
             for (let i = 1; i <= totalImages; i++) {
-                // 這裡的路徑已改為直接讀取根目錄
                 wrapper.innerHTML += `
                     <div class="swiper-slide">
                         <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}">
@@ -205,4 +233,5 @@
             loadingText: '載入中...',
         });
     </script>
+</body>
 </html>
