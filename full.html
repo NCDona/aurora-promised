@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.css" />
     
-    
-  <style>
+    <style>
         /* 基礎設定 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Montserrat', 'Noto Serif TC', serif; background-color: #faf7f2; color: #4a3e3d; line-height: 1.8; overflow-x: hidden; }
@@ -22,7 +21,8 @@
         nav a { text-decoration: none; color: #726259; font-size: 18px; font-weight: 600; transition: color 0.3s; letter-spacing: 1px; }
         nav a:hover { color: #b18f6a; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        /* 【調整 1】整體容器加寬至 1150px */
+        .container { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
         
         /* Hero 視覺區 */
         .hero-section { position: relative; width: 100%; height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; }
@@ -38,16 +38,17 @@
         /* 故事卡片 */
         .story-card { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(228, 203, 189, 0.3); }
         #announcement .story-card { display: block; text-align: center; padding: 40px 20px; }
-        #announcement .story-card i {margin: 0 auto 20px auto; font-size: 35px; color: #b18f6a; }
+        #announcement .story-card i { margin: 0 auto 20px auto; font-size: 35px; color: #b18f6a; }
         .story-info { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid rgba(228, 203, 189, 0.3); margin-bottom: 20px; }
         .info-item { display: flex; align-items: center; gap: 12px; }
         .info-icon { color: #b18f6a; width: 25px; text-align: center; }
-        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif; }
+        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif; white-space: nowrap; }
+        
         .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* 喜餅介紹區塊 */
-        .gift-section { margin: 35px auto; padding: 0; max-width: 650px; }
+        /* 喜餅介紹區塊（【調整 1】同步加寬喜餅區塊） */
+        .gift-section { margin: 35px auto; padding: 0; max-width: 800px; }
         .gift-note { background: rgba(255, 255, 255, 0.55); border: 1px dashed #d0c4ba; border-radius: 16px; padding: 25px 20px; text-align: center; }
         .gift-badge { display: inline-block; font-size: 0.85rem; color: #b18f6a; letter-spacing: 1px; margin-bottom: 6px; font-weight: 500; }
         .gift-title { font-size: 1.2rem; color: #4a4a4a; margin: 4px 0 8px 0; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; }
@@ -73,13 +74,29 @@
         .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
         .sl-wrapper .sl-spinner { color: #ffffff; }
 
-        /* RWD 響應式：電腦版設定 (>= 768px) */
+        /* 【調整 2 & 3】RWD 響應式：電腦版設定 (>= 768px) */
         @media (min-width: 768px) {
-            .story-card { display: grid; grid-template-columns: 200px 1px 1.5fr 250px; gap: 20px; align-items: stretch; padding: 30px; }
+            /* 重新調配 4 欄比例，大幅寬擴中間文字區，控制右側圖片區域 */
+            .story-card { 
+                display: grid; 
+                grid-template-columns: 180px 1px 1.8fr 260px; 
+                gap: 24px; 
+                align-items: center; 
+                padding: 30px; 
+            }
             .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
             .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
             .story-content { padding: 0 10px; display: flex; flex-direction: column; justify-content: center; }
-            .story-frame { margin-top: 0; }
+            
+            /* 右側圖片調得稍微偏正方形 (4:5 比例)，並且置中垂直對齊 */
+            .story-frame { 
+                margin-top: 0; 
+                aspect-ratio: 4 / 5; 
+                max-height: 380px; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
 
         /* RWD 響應式：手機版設定 (< 767px) */
@@ -127,10 +144,10 @@
             <div class="story-card">
                 <i class="fa-solid fa-champagne-glasses"></i>
                 <h3 style="font-family: 'Noto Serif TC', serif; font-size: 22px; color: #5c4a42; margin-bottom: 25px;">分享喜悅</h3>
-                <p style="font-size: 15px; color: #726259; line-height: 1.8; max-width: 500px; margin: 0 auto;">
-                我們已於 2026 年 9 月 19 日完成結婚登記。<br>
-                選擇以簡單的方式邁向新階段，因此沒有舉辦婚宴。<br>
-                雖然沒有宴客，但我們仍然想把這份喜悅<br class="mobile-break">分享給最重視的你。<br>
+                <p style="font-size: 15px; color: #726259; line-height: 1.8; max-width: 550px; margin: 0 auto;">
+                    我們已於 2026 年 9 月 19 日完成結婚登記。<br>
+                    選擇以簡單的方式邁向新階段，因此沒有舉辦婚宴。<br>
+                    雖然沒有宴客，但我們仍然想把這份喜悅<br class="mobile-break">分享給最重視的你。<br>
                 </p>
             </div>
         </section>
@@ -138,7 +155,7 @@
         <section id="story">
             <h2 class="section-title">極光之約</h2>
             <div class="story-card">
-               <div class="story-info">
+                <div class="story-info">
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-heart"></i></div><div class="info-text"><p>冠霖 ＆ 念臻</p></div></div>
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-calendar-days"></i></div><div class="info-text"><p>2026 / 03 / 21</p></div></div>
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-location-dot"></i></div><div class="info-text"><p>阿拉斯加．費爾班克斯</p></div></div>
@@ -146,21 +163,19 @@
                 <div class="divider"></div>
                 <div class="story-content">
                     <p>人們說，看見極光就會幸福一輩子。<br>
-                       從 2018 年相識，到跨越距離與時差的考驗，<br>
-                       我們把等待熬成了默契，思念淬鍊成了堅定。<br>
-                       那句「11 年一次的太陽極大期，<br>
-                       我們去看極光吧」，<br>
-                       開啟了這趟這場像夢境般的追光之旅。<br>
-                       在零下 30 多度的曠野中，<br>
-                       冷冽的空氣讓呼吸都凝結成霜。<br>
-                       寂靜且遼闊的極地裡，我們相依而立，<br>
-                       天地間彷彿只剩下彼此的身影。<br>
-                       在極光的見證下，我們許下了一生的承諾。<br>
-                       我們將這份來自極北之地的幸運與悸動，<br>
-                       封存於這份『極光之約』中，<br>
-                       誠摯地與您分享這份美好。
+                        從 2018 年相識，到跨越距離與時差的考驗，<br>
+                        我們把等待熬成了默契，思念淬鍊成了堅定。<br>
+                        那句「11 年一次的太陽極大期，我們去看極光吧」，<br>
+                        開啟了這場像夢境般的追光之旅。<br>
+                        在零下 30 多度的曠野中，<br>
+                        冷冽的空氣讓呼吸都凝結成霜。<br>
+                        寂靜且遼闊的極地裡，我們相依而立，<br>
+                        天地間彷彿只剩下彼此的身影。<br>
+                        在極光的見證下，我們許下了一生的承諾。<br>
+                        我們將這份來自極北之地的幸運與悸動，<br>
+                        封存於這份『極光之約』中，<br>
+                        誠摯地與您分享這份美好。
                     </p>
-
                 </div>
                 <div class="story-frame"><img src="aurora_2.webp" alt="故事照" loading="lazy"></div>
             </div>
@@ -170,7 +185,6 @@
             <div class="gift-note">
                 <div class="gift-header">
                     <span class="gift-badge">♡ 關於我們的禮盒 ♡</span>
-                    <!-- 品牌與禮盒名稱放在同一排，用冒號或豎線隔開 -->
                     <h3 class="gift-title">卡柏蒂 CUPETIT ─《極光之約》</h3>
                     <span class="gift-brand">與數位藝術家 Damonxart 聯名創作</span>
                 </div>
@@ -220,7 +234,6 @@
 
         if (wrapper) {
             for (let i = 1; i <= totalImages; i++) {
-                // 這裡的路徑已改為直接讀取根目錄
                 wrapper.innerHTML += `
                     <div class="swiper-slide">
                         <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}">
@@ -255,4 +268,5 @@
             loadingText: '載入中...',
         });
     </script>
+</body>
 </html>
