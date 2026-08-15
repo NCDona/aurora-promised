@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -75,75 +75,75 @@
         .sl-wrapper .sl-spinner { color: #ffffff; }
 
         /* 中間文字區塊：強制不折行 */
-.story-content {
-    white-space: nowrap;
-}
+        .story-content {
+            white-space: nowrap;
+        }
 
-/* 電腦版設定 (>= 1100px)：空間足夠時才展開三欄橫向排版 */
-@media (min-width: 1100px) {
-    .story-card { 
-        display: grid; 
-        grid-template-columns: 180px 1px auto 280px; 
-        gap: 30px; 
-        align-items: center; 
-        padding: 35px 40px; 
-    }
-    .story-info { 
-        border-bottom: 0; 
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-        gap: 10px; 
-        margin-bottom: 0; 
-        padding-bottom: 0; 
-    }
-    .divider { 
-        display: block;
-        background-color: rgba(228, 203, 189, 0.5); 
-        width: 1px; 
-        height: 100%; 
-    }
-    .story-content { 
-        padding: 0 10px; 
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-    }
-    .story-frame { 
-        margin-top: 0; 
-        width: 280px; 
-        aspect-ratio: 4 / 5; 
-        max-height: 380px; 
-    }
-}
+        /* 電腦版設定 (>= 1100px)：空間足夠時才展開三欄橫向排版 */
+        @media (min-width: 1100px) {
+            .story-card { 
+                display: grid; 
+                grid-template-columns: 180px 1px auto 280px; 
+                gap: 30px; 
+                align-items: center; 
+                padding: 35px 40px; 
+            }
+            .story-info { 
+                border-bottom: 0; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                gap: 10px; 
+                margin-bottom: 0; 
+                padding-bottom: 0; 
+            }
+            .divider { 
+                display: block;
+                background-color: rgba(228, 203, 189, 0.5); 
+                width: 1px; 
+                height: 100%; 
+            }
+            .story-content { 
+                padding: 0 10px; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+            }
+            .story-frame { 
+                margin-top: 0; 
+                width: 280px; 
+                aspect-ratio: 4 / 5; 
+                max-height: 380px; 
+            }
+        }
 
-/* 窄螢幕/平板/手機 (< 1100px)：只要空間不足以完全放下不折行的文字，就立刻轉為單欄 */
-@media (max-width: 1099px) {
-    .divider { display: none; }
-    .story-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 30px 20px;
-    }
-    .story-info {
-        border-bottom: 1px solid rgba(228, 203, 189, 0.3);
-        padding-bottom: 15px;
-        margin-bottom: 15px;
-        width: 100%;
-        align-items: center;
-    }
-    .story-content {
-        white-space: normal; /* 轉為單欄時恢復自然換行，符合手機閱讀習慣 */
-        text-align: center;
-    }
-    .story-frame {
-        width: 100%;
-        max-width: 320px;
-        margin-top: 20px;
-    }
-}
+        /* 窄螢幕/平板/手機 (< 1100px)：只要空間不足以完全放下不折行的文字，就立刻轉為單欄 */
+        @media (max-width: 1099px) {
+            .divider { display: none; }
+            .story-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            .story-info {
+                border-bottom: 1px solid rgba(228, 203, 189, 0.3);
+                padding-bottom: 15px;
+                margin-bottom: 15px;
+                width: 100%;
+                align-items: center;
+            }
+            .story-content {
+                white-space: normal; /* 轉為單欄時恢復自然換行，符合手機閱讀習慣 */
+                text-align: center;
+            }
+            .story-frame {
+                width: 100%;
+                max-width: 320px;
+                margin-top: 20px;
+            }
+        }
     </style>
 </head>
 
