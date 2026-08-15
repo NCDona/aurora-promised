@@ -78,9 +78,9 @@
         @media (min-width: 768px) {
             .story-card { 
                 display: grid; 
-                /* 調整欄位比例：中間文字(1fr)與右側圖片(auto)自然靠攏 */
+                /* 180px 左邊 | 1px 分隔線 | 彈性文字區 | 固定/彈性圖片區 */
                 grid-template-columns: 180px 1px minmax(0, 1fr) auto; 
-                gap: 25px; /* 控制文字與圖片之間的黃金距離 */
+                gap: 25px; 
                 align-items: center; 
                 padding: 35px 35px; 
             }
@@ -88,7 +88,7 @@
             .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
             .story-content { padding: 0 5px; display: flex; flex-direction: column; justify-content: center; }
     
-            /* 右側圖片寬度固定為 300px，直橫比 4:5 保持質感 */
+            /* 讓圖片在視窗變窄時可以等比例微縮，不會超出邊框 */
             .story-frame { 
                 margin-top: 0; 
                 width: 100%;
@@ -164,8 +164,7 @@
                     <p>人們說，看見極光就會幸福一輩子。<br>
                         從 2018 年相識，到跨越距離與時差的考驗，<br>
                         我們把等待熬成了默契，思念淬鍊成了堅定。<br>
-                        那句「11 年一次的太陽極大期，<br>
-                        我們去看極光吧」，<br>
+                        <span style="white-space: nowrap;">那句「11 年一次的太陽極大期，我們去看極光吧」，</span><br>
                         開啟了這場像夢境般的追光之旅。<br>
                         在零下 30 多度的曠野中，<br>
                         冷冽的空氣讓呼吸都凝結成霜。<br>
