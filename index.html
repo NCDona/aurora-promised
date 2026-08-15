@@ -64,41 +64,75 @@
         .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
         .sl-wrapper .sl-spinner { color: #ffffff; }
 
-        /* 電腦版設定 (>= 768px) */
-        @media (min-width: 768px) {
+        /* 中間文字區塊：強制不折行 */
+        .story-content {
+            white-space: nowrap;
+        }
+
+        /* 電腦版設定 (>= 1100px)：空間足夠時才展開三欄橫向排版 */
+        @media (min-width: 1100px) {
             .story-card { 
                 display: grid; 
-                /* 調整欄位比例：中間文字(1fr)與右側圖片(auto)自然靠攏 */
-                grid-template-columns: 180px 1px minmax(0, 1fr) auto; 
-                gap: 25px; /* 控制文字與圖片之間的黃金距離 */
+                grid-template-columns: 180px 1px auto 280px; 
+                gap: 30px; 
                 align-items: center; 
-                padding: 35px 35px; 
+                padding: 35px 40px; 
             }
-            .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
-            .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
-            .story-content { padding: 0 5px; display: flex; flex-direction: column; justify-content: center; }
-    
-            /* 右側圖片寬度固定為 300px，直橫比 4:5 保持質感 */
+            .story-info { 
+                border-bottom: 0; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                gap: 10px; 
+                margin-bottom: 0; 
+                padding-bottom: 0; 
+            }
+            .divider { 
+                display: block;
+                background-color: rgba(228, 203, 189, 0.5); 
+                width: 1px; 
+                height: 100%; 
+            }
+            .story-content { 
+                padding: 0 10px; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+            }
             .story-frame { 
                 margin-top: 0; 
-                width: 100%;
-                max-width: 280px;
-                min-width: 200px;
+                width: 280px; 
                 aspect-ratio: 4 / 5; 
                 max-height: 380px; 
             }
         }
-        /* RWD 響應式：手機版設定 (< 767px) */
-        @media (max-width: 767px) {
-            header { padding: 15px 20px; flex-direction: column; gap: 10px; }
-            nav { gap: 18px; }
-            nav a { font-size: 15px; }
-            .hero-names { font-size: 1.8rem; }
-            .hero-tagline { font-size: 0.95rem; letter-spacing: 3px; }
-            
-            .gallery-container { padding: 0 25px; }
-            .swiper-button-prev { left: -5px !important; transform: scale(0.7); }
-            .swiper-button-next { right: -5px !important; transform: scale(0.7); }
+
+        /* 窄螢幕/平板/手機 (< 1100px)：只要空間不足以完全放下不折行的文字，就立刻轉為單欄 */
+        @media (max-width: 1099px) {
+            .divider { display: none; }
+            .story-card {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            .story-info {
+                border-bottom: 1px solid rgba(228, 203, 189, 0.3);
+                padding-bottom: 15px;
+                margin-bottom: 15px;
+                width: 100%;
+                align-items: center;
+            }
+            .story-content {
+                white-space: normal; /* 轉為單欄時恢復自然換行，符合手機閱讀習慣 */
+                text-align: center;
+            }
+            .story-frame {
+                width: 100%;
+                max-width: 320px;
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
@@ -149,8 +183,7 @@
                     <p>人們說，看見極光就會幸福一輩子。<br>
                         從 2018 年相識，到跨越距離與時差的考驗，<br>
                         我們把等待熬成了默契，思念淬鍊成了堅定。<br>
-                        那句「11 年一次的太陽極大期，<br>
-                        我們去看極光吧」，<br>
+                        <span style="white-space: nowrap;">那句「11 年一次的太陽極大期，我們去看極光吧」，</span><br>
                         開啟了這場像夢境般的追光之旅。<br>
                         在零下 30 多度的曠野中，<br>
                         冷冽的空氣讓呼吸都凝結成霜。<br>
