@@ -74,31 +74,28 @@
         .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
         .sl-wrapper .sl-spinner { color: #ffffff; }
 
-        /* 【調整 2 & 3】RWD 響應式：電腦版設定 (>= 768px) */
+        /* 電腦版設定 (>= 768px) */
         @media (min-width: 768px) {
-            /* 重新調配 4 欄比例，大幅寬擴中間文字區，控制右側圖片區域 */
             .story-card { 
                 display: grid; 
-                grid-template-columns: 180px 1px 1.8fr 260px; 
-                gap: 24px; 
+                /* 調整欄位比例：中間文字(1fr)與右側圖片(auto)自然靠攏 */
+                grid-template-columns: 180px 1px 1fr auto; 
+                gap: 30px; /* 控制文字與圖片之間的黃金距離 */
                 align-items: center; 
-                padding: 30px; 
+                padding: 35px 40px; 
             }
             .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
             .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
             .story-content { padding: 0 10px; display: flex; flex-direction: column; justify-content: center; }
-            
-            /* 右側圖片調得稍微偏正方形 (4:5 比例)，並且置中垂直對齊 */
+    
+            /* 右側圖片寬度固定為 300px，直橫比 4:5 保持質感 */
             .story-frame { 
                 margin-top: 0; 
+                width: 300px;
                 aspect-ratio: 4 / 5; 
                 max-height: 380px; 
-                display: flex;
-                align-items: center;
-                justify-content: center;
             }
         }
-
         /* RWD 響應式：手機版設定 (< 767px) */
         @media (max-width: 767px) {
             header { padding: 15px 20px; flex-direction: column; gap: 10px; }
