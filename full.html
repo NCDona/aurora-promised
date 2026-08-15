@@ -10,48 +10,51 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.css" />
     
     
-   <style>
+  <style>
+        /* 基礎設定 */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Montserrat', 'Noto Serif TC', serif; background-color: #faf7f2; color: #4a3e3d; line-height: 1.8; overflow-x: hidden; }
+        
+        /* Header 導覽列 */
         header { width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(224, 203, 189, 0.3); background: #faf7f2; }
         .logo img { width: 40px; height: auto; display: block; }
-        .mobile-break {display: none;}
-
-        @media (max-width: 767px) {.mobile-break {display: block;}}
         nav { display: flex; gap: 30px; }
         nav a { text-decoration: none; color: #726259; font-size: 18px; font-weight: 600; transition: color 0.3s; letter-spacing: 1px; }
         nav a:hover { color: #b18f6a; }
-        
+
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Hero 視覺區 */
         .hero-section { position: relative; width: 100%; height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; }
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('./aurora_1.webp') center/cover no-repeat; z-index: -1; }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.35); z-index: 0; }
         .hero-content { position: relative; z-index: 1; padding: 20px; }
         .hero-names { font-family: 'Microsoft JhengHei', serif; font-size: 2.5rem; margin-bottom: 15px; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .hero-names i { font-size: 0.6em; display: inline-block; vertical-align: middle; }
         .hero-tagline { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 6px; margin-bottom: 10px; opacity: 0.9; }
-        .hero-names i {font-size: 0.6em; display: inline-block;vertical-align: middle;}
 
         .section-title { font-size: 22px; margin: 40px 0 20px; text-align: center; color: #5c4a42; }
 
+        /* 故事卡片 */
         .story-card { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(228, 203, 189, 0.3); }
-        #announcement .story-card { display: block; text-align: center; padding: 40px 20px; }
-        #announcement .story-card i {margin: 0 auto 20px auto; font-size: 35px; color: #b18f6a; }
-
         .story-info { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid rgba(228, 203, 189, 0.3); margin-bottom: 20px; }
         .info-item { display: flex; align-items: center; gap: 12px; }
         .info-icon { color: #b18f6a; width: 25px; text-align: center; }
-        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Microsoft JhengHei", Arial, sans-serif; }
-        .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; spect-ratio: 1 / 1; }
+        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif; }
+        .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        .gift-section {margin: 30px auto; padding: 0 20px; max-width: 650px;}
-        .gift-note {background: rgba(255, 255, 255, 0.5); border: 1px dashed #d0c4ba; border-radius: 12px; padding: 24px 20px; text-align: center;}
-        .gift-badge {display: inline-block; font-size: 0.85rem; color: #b18f6a; /* 用溫暖的香檳金/大地色 */ letter-spacing: 1px; margin-bottom: 6px; font-weight: 500;}
-        .gift-title {font-size: 1.25rem; /* 字體縮小，不再壓迫 */ color: #4a4a4a; margin: 2px 0 4px 0; font-weight: 600;}
-        .gift-brand {display: block; font-size: 0.8rem; color: #8c8c8c; margin-bottom: 12px;}
-        .gift-quote {font-style: italic; font-size: 0.85rem; color: #7a7a7a; margin-bottom: 8px; font-family: 'Georgia', serif;}
-        .gift-desc {font-size: 0.88rem; line-height: 1.7; color: #666; margin: 0;}
-       
+        /* 喜餅介紹區塊 */
+        .gift-section { margin: 35px auto; padding: 0; max-width: 650px; }
+        .gift-note { background: rgba(255, 255, 255, 0.55); border: 1px dashed #d0c4ba; border-radius: 16px; padding: 25px 20px; text-align: center; }
+        .gift-badge { display: inline-block; font-size: 0.85rem; color: #b18f6a; letter-spacing: 1px; margin-bottom: 6px; font-weight: 500; }
+        .gift-title { font-size: 1.2rem; color: #4a4a4a; margin: 4px 0 8px 0; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .gift-title .brand-name { font-size: 0.95rem; color: #726259; font-weight: 500; }
+        .gift-title .box-name { color: #b18f6a; font-weight: 700; font-size: 1.25rem; }
+        .gift-quote { font-style: italic; font-size: 0.85rem; color: #7a7a7a; margin: 10px 0; font-family: 'Georgia', serif; }
+        .gift-desc { font-size: 0.88rem; line-height: 1.75; color: #666; margin: 0; }
+
+        /* 相簿側寫 */
         .gallery-message { font-size: 16px; text-align: center; color: #808080; }
         .gallery-container { position: relative; margin-bottom: 60px; padding: 0 40px; }
         .swiper { width: 100%; padding: 20px 0; }
@@ -59,24 +62,39 @@
         .gallery-item-link:hover { transform: translateY(-5px); }
         .gallery-item-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .swiper-button-next, .swiper-button-prev { color: #b18f6a !important; }
-        .sl-overlay { background: rgba(74, 62, 61, 0.9) !important; }
-        /* 修改關閉按鈕 (✖) 顏色 */
-        .sl-wrapper .sl-close {color: #ffffff;}
-        /* 修改左右切換按鈕 (← 和 →) 顏色 */
-        .sl-wrapper .sl-navigation button {color: #ffffff; font-size: 4rem !important;}
-        /* （選填）修改載入中文字顏色 */
-        .sl-wrapper .sl-spinner {color: #ffffff;}
-        .swiper-button-prev {left: -15px !important; /* 數字越負，往左移越遠 */}
-        /* 右箭頭往右推 */
-        .swiper-button-next {right: -15px !important; /* 數字越負，往右移越遠 */}
+        .swiper-button-prev { left: -15px !important; }
+        .swiper-button-next { right: -15px !important; }
 
-       
-       @media (min-width: 768px) {
-       .story-card { display: grid; grid-template-columns: 200px 1px 1.5fr 250px; gap: 20px; align-items: stretch; padding: 30px; }
-       .story-info { border-bottom: 0; border-right: none; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
-       .divider { background-color: rgba(228, 203, 189, 0.5);width: 1px;height: 100%;}
-       .story-content { padding: 0 10px; display: flex;  flex-direction: column; justify-content: center; }
-       .story-frame img { width: 100%; hdisplay: flex; align-items: center; }
+        /* Lightbox 燈箱套件調色 */
+        .sl-overlay { background: rgba(74, 62, 61, 0.9) !important; }
+        .sl-wrapper .sl-close { color: #ffffff; }
+        .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
+        .sl-wrapper .sl-spinner { color: #ffffff; }
+
+        /* RWD 響應式：電腦版設定 (>= 768px) */
+        @media (min-width: 768px) {
+            .story-card { display: grid; grid-template-columns: 200px 1px 1.5fr 250px; gap: 20px; align-items: stretch; padding: 30px; }
+            .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
+            .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
+            .story-content { padding: 0 10px; display: flex; flex-direction: column; justify-content: center; }
+            .story-frame { margin-top: 0; }
+        }
+
+        /* RWD 響應式：手機版設定 (< 767px) */
+        @media (max-width: 767px) {
+            header { padding: 15px 20px; flex-direction: column; gap: 10px; }
+            nav { gap: 18px; }
+            nav a { font-size: 15px; }
+            .hero-names { font-size: 1.8rem; }
+            .hero-tagline { font-size: 0.95rem; letter-spacing: 3px; }
+            
+            .gallery-container { padding: 0 25px; }
+            .swiper-button-prev { left: -5px !important; transform: scale(0.7); }
+            .swiper-button-next { right: -5px !important; transform: scale(0.7); }
+            
+            .gift-note { padding: 20px 15px; }
+            .gift-title { font-size: 1.1rem; }
+            .gift-desc { font-size: 0.82rem; }
         }
     </style>
 </head>
