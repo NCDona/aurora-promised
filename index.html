@@ -40,7 +40,7 @@
         .story-info { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; border-bottom: 1px solid rgba(228, 203, 189, 0.3); margin-bottom: 20px; }
         .info-item { display: flex; align-items: center; gap: 12px; }
         .info-icon { color: #b18f6a; width: 25px; text-align: center; }
-        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Microsoft JhengHei", Arial, sans-serif;}
+        .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Microsoft JhengHei", Arial, sans-serif; }
         .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; spect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -58,14 +58,18 @@
         .sl-wrapper .sl-navigation button {color: #ffffff; font-size: 4rem !important;}
         /* （選填）修改載入中文字顏色 */
         .sl-wrapper .sl-spinner {color: #ffffff;}
+        .swiper-button-prev {left: -15px !important; /* 數字越負，往左移越遠 */}
+        /* 右箭頭往右推 */
+        .swiper-button-next {right: -15px !important; /* 數字越負，往右移越遠 */}
 
+       
        @media (min-width: 768px) {
        .story-card { display: grid; grid-template-columns: 200px 1px 1.5fr 250px; gap: 20px; align-items: stretch; padding: 30px; }
        .story-info { border-bottom: 0; border-right: none; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
        .divider { background-color: rgba(228, 203, 189, 0.5);width: 1px;height: 100%;}
        .story-content { padding: 0 10px; display: flex;  flex-direction: column; justify-content: center; }
        .story-frame img { width: 100%; hdisplay: flex; align-items: center; }
-       }
+        }
     </style>
 </head>
 
