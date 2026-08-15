@@ -79,7 +79,7 @@
             .story-card { 
                 display: grid; 
                 /* 調整欄位比例：中間文字(1fr)與右側圖片(auto)自然靠攏 */
-                grid-template-columns: 180px 1px 1fr auto; 
+                grid-template-columns: 180px 1px minmax(0, 1fr) auto; 
                 gap: 30px; /* 控制文字與圖片之間的黃金距離 */
                 align-items: center; 
                 padding: 35px 40px; 
