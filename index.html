@@ -69,19 +69,21 @@
             .story-card { 
                 display: grid; 
                 /* 調整欄位比例：中間文字(1fr)與右側圖片(auto)自然靠攏 */
-                grid-template-columns: 180px 1px 1fr auto; 
-                gap: 30px; /* 控制文字與圖片之間的黃金距離 */
+                grid-template-columns: 180px 1px minmax(0, 1fr) auto; 
+                gap: 25px; /* 控制文字與圖片之間的黃金距離 */
                 align-items: center; 
-                padding: 35px 40px; 
+                padding: 35px 35px; 
             }
             .story-info { border-bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
             .divider { background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
-            .story-content { padding: 0 10px; display: flex; flex-direction: column; justify-content: center; }
+            .story-content { padding: 0 5px; display: flex; flex-direction: column; justify-content: center; }
     
             /* 右側圖片寬度固定為 300px，直橫比 4:5 保持質感 */
             .story-frame { 
                 margin-top: 0; 
-                width: 300px;
+                width: 100%;
+                max-width: 280px;
+                min-width: 200px;
                 aspect-ratio: 4 / 5; 
                 max-height: 380px; 
             }
