@@ -282,7 +282,7 @@
             mainHTML += `
                 <div class="swiper-slide">
                     <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}" data-index="${i-1}">
-                        <img src="./pic/pic${i}.webp" alt="回憶 ${i}" loading="lazy">
+                        <img src="./pic/pic${i}.webp" alt="回憶 ${i}">
                     </a>
                 </div>`;
             thumbsHTML += `
@@ -314,20 +314,20 @@
         // 4. 主圖與縮圖同步（用 realIndex，避開循環複製出來的假頁面）
         const thumbSlides = document.querySelectorAll('.gallery-thumbs .swiper-slide');
 
-        let forcedIndex = null;   // 點縮圖跳轉期間，強制指定亮起的縮圖
-
         function setThumbs(idx) {
             thumbSlides.forEach((el, i) => el.classList.toggle('swiper-slide-thumb-active', i === idx));
             thumbsSwiper.slideTo(idx);
         }
         function syncThumbs() {
-            setThumbs(forcedIndex !== null ? forcedIndex : mainSwiper.realIndex);
+            setThumbs(mainSwiper.realIndex);
         }
         mainSwiper.on('slideChange', syncThumbs);
         syncThumbs();
 
         // 點縮圖 → 永遠以「往下一張」的方向滑過去，不倒退、不經過中間的照片
         let jumping = false;
+        const SLIDE_MS = 600;
+
         function goForwardTo(target) {
             const n = totalImages;
             const cur = mainSwiper.realIndex;
@@ -335,28 +335,44 @@
 
             // 剛好是下一張：直接用原生動畫
             if ((target - cur + n) % n === 1) {
-                mainSwiper.slideNext(600);
+                mainSwiper.slideNext(SLIDE_MS);
                 return;
             }
 
-            // 其他張：先把「下一個位置」暫時換成目標照片，滑過去後再無縫切到真正的那一張
+            // 其他張：用一層「覆蓋圖」從右邊滑進來，目前這張同步往左滑出；
+            // 動畫結束後，在覆蓋圖底下悄悄切到真正的那一張，再移除覆蓋圖（全程不露出其他照片）
             jumping = true;
-            forcedIndex = target;
             setThumbs(target);
 
-            const nextSlide = mainSwiper.slides[mainSwiper.activeIndex + 1];
-            const img = nextSlide.querySelector('img');
-            const originalSrc = img.getAttribute('src');
-            img.setAttribute('src', `./pic/pic${target + 1}.webp`);
+            const host = document.querySelector('.gallery-main');
+            const step = mainSwiper.width + 20;   // 20 = spaceBetween
 
-            mainSwiper.once('transitionEnd', () => {
-                mainSwiper.slideToLoop(target, 0);        // 畫面相同，瞬間換成真正的那一張
-                img.setAttribute('src', originalSrc);     // 還原被暫時替換的圖片
-                forcedIndex = null;
-                jumping = false;
-                syncThumbs();
-            });
-            mainSwiper.slideNext(600);
+            const source = document.querySelectorAll(
+                '.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a.gallery-item-link'
+            )[target];
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:absolute;inset:0;z-index:5;pointer-events:none;';
+            overlay.appendChild(source.cloneNode(true));
+            host.appendChild(overlay);
+
+            const ease = 'cubic-bezier(0.22, 0.61, 0.36, 1)';
+            mainSwiper.wrapperEl.animate(
+                [{ translate: '0px 0px' }, { translate: `${-step}px 0px` }],
+                { duration: SLIDE_MS, easing: ease }
+            );
+            const anim = overlay.animate(
+                [{ transform: `translateX(${step}px)` }, { transform: 'translateX(0)' }],
+                { duration: SLIDE_MS, easing: ease, fill: 'forwards' }
+            );
+
+            anim.onfinish = () => {
+                mainSwiper.slideToLoop(target, 0, false);   // 不觸發事件，覆蓋圖仍蓋在上面
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    overlay.remove();
+                    jumping = false;
+                    syncThumbs();
+                }));
+            };
         }
 
         thumbSlides.forEach((el, i) => {
