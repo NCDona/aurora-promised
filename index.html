@@ -53,7 +53,7 @@
             display: flex; align-items: center; justify-content: center;
             width: 100%; height: clamp(360px, 70vh, 720px);
             border-radius: 16px; overflow: hidden;
-            background: rgba(255, 255, 255, 0.6);
+            background: #fdfcfa;   /* 不透明（等同白色 60% 疊在頁面底色上），避免橫圖兩側的留白透出底下的照片 */
             cursor: zoom-in;
         }
         .gallery-item-link img { width: 100%; height: 100%; object-fit: contain; display: block; }
@@ -223,7 +223,7 @@
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-location-dot"></i></div><div class="info-text"><p>阿拉斯加．費爾班克斯</p></div></div>
                 </div>
                 <div class="divider"></div>
-                 <div class="story-content">
+                <div class="story-content">
                     <p>人們說，看見極光就會幸福一輩子。<br>
                         從 2018 年相識，到跨越距離與時差的考驗，<br>
                         把等待熬成了默契，思念淬鍊成了堅定。<br>
