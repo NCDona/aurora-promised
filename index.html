@@ -306,6 +306,7 @@
         const mainSwiper = new Swiper('.gallery-main', {
             slidesPerView: 1,
             spaceBetween: 20,
+            rewind: true,   // 最後一張按下一張 → 回到第一張；第一張按上一張 → 跳到最後一張
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
