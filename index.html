@@ -47,16 +47,23 @@
         .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* 相簿側寫 */
+        /* 相簿側寫（置頂、放大版） */
+        .gallery-top { max-width: 1400px; margin: 0 auto; padding: 20px 20px 0; }
         .gallery-message { font-size: 16px; text-align: center; color: #808080; }
-        .gallery-container { position: relative; margin-bottom: 60px; padding: 0 40px; }
+        .gallery-container { position: relative; margin-bottom: 40px; padding: 0 50px; }
         .swiper { width: 100%; padding: 20px 0; }
-        .gallery-item-link { display: block; border-radius: 12px; overflow: hidden; aspect-ratio: 1/1; cursor: zoom-in; transition: transform 0.3s ease; }
+        .gallery-item-link { display: block; border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; cursor: zoom-in; transition: transform 0.3s ease; }
         .gallery-item-link:hover { transform: translateY(-5px); }
         .gallery-item-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .swiper-button-next, .swiper-button-prev { color: #b18f6a !important; }
-        .swiper-button-prev { left: -15px !important; }
-        .swiper-button-next { right: -15px !important; }
+        .swiper-button-prev { left: 0 !important; }
+        .swiper-button-next { right: 0 !important; }
+
+        @media (max-width: 767px) {
+            .gallery-container { padding: 0 30px; }
+            .swiper-button-prev { left: -5px !important; }
+            .swiper-button-next { right: -5px !important; }
+        }
 
         /* Lightbox 燈箱套件調色 */
         .sl-overlay { background: rgba(74, 62, 61, 0.9) !important; }
@@ -148,6 +155,19 @@
         </nav>
     </header>
 
+    <!-- 幸福側寫（移到最上方） -->
+    <section id="gallery" class="gallery-top">
+        <h2 class="section-title">幸福側寫</h2>
+        <h4 class="gallery-message">♡ 婚紗照製作中，Coming Soon...♡</h4>
+        <div class="gallery-container">
+            <div class="swiper">
+                <div class="swiper-wrapper" id="swiper-wrapper"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
     <section class="hero-section">
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
@@ -198,18 +218,6 @@
                 <div class="story-frame"><img src="aurora_2.webp" alt="故事照" loading="lazy"></div>
             </div>
         </section>
-        
-        <section id="gallery">
-            <h2 class="section-title">幸福側寫</h2>
-            <h4 class="gallery-message">♡ 婚紗照製作中，Coming Soon...♡</h4>
-            <div class="gallery-container">
-                <div class="swiper">
-                    <div class="swiper-wrapper" id="swiper-wrapper"></div>
-                </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-        </section>
     </div>
 
     <footer style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; color: #726259; border-top: 1px solid rgba(224, 203, 189, 0.5); margin-top: 50px;">
@@ -243,20 +251,18 @@
             }
         }
 
-        // 2. 初始化 Swiper
+        // 2. 初始化 Swiper（放大版）
         const swiper = new Swiper('.swiper', {
             loop: true,
-            slidesPerView: 2,
-            spaceBetween: 10,
+            slidesPerView: 1,
+            spaceBetween: 15,
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
             breakpoints: {
-                768: {
-                    slidesPerView: 4,
-                    spaceBetween: 20
-                }
+                768:  { slidesPerView: 2, spaceBetween: 20 },
+                1400: { slidesPerView: 3, spaceBetween: 24 }
             }
         });
 
