@@ -7,34 +7,94 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    
+
     <style>
-        /* 基礎設定 */
+        /* ==================== 基礎 ==================== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Montserrat', 'Noto Serif TC', serif; background-color: #faf7f2; color: #4a3e3d; line-height: 1.8; overflow-x: hidden; }
-        
-        /* Header 導覽列 */
+        .container { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
+        .section-title { font-size: 22px; margin: 40px 0 20px; text-align: center; color: #5c4a42; }
+
+        /* ==================== Header ==================== */
         header { width: 100%; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(224, 203, 189, 0.3); background: #faf7f2; }
         .logo img { width: 40px; height: auto; display: block; }
         nav { display: flex; gap: 30px; }
         nav a { text-decoration: none; color: #726259; font-size: 18px; font-weight: 600; transition: color 0.3s; letter-spacing: 1px; }
         nav a:hover { color: #b18f6a; }
 
-        /* 【調整 1】整體容器加寬至 1150px */
-        .container { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Hero 視覺區 */
+        /* ==================== Hero ==================== */
         .hero-section { position: relative; width: 100%; height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('./aurora_1.webp') center/cover no-repeat; z-index: -1; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.35); z-index: 0; }
+        .hero-bg { position: absolute; inset: 0; background: url('./aurora_1.webp') center/cover no-repeat; z-index: -1; }
+        .hero-overlay { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.35); z-index: 0; }
         .hero-content { position: relative; z-index: 1; padding: 20px; }
         .hero-names { font-family: 'Microsoft JhengHei', serif; font-size: 2.5rem; margin-bottom: 15px; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
         .hero-names i { font-size: 0.6em; display: inline-block; vertical-align: middle; }
         .hero-tagline { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 6px; margin-bottom: 10px; opacity: 0.9; }
 
-        .section-title { font-size: 22px; margin: 40px 0 20px; text-align: center; color: #5c4a42; }
+        /* ==================== 幸福側寫：主圖 ==================== */
+        .gallery-top { max-width: 1400px; margin: 0 auto; padding: 20px 0 0; }
+        .gallery-container { margin-bottom: 40px; }
 
-        /* 故事卡片 */
+        .gallery-main-wrap { position: relative; padding: 0 50px; }
+        .gallery-main { width: 100%; }
+
+        .gallery-item-link {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: clamp(360px, 70vh, 720px);
+            border-radius: 16px; overflow: hidden;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: zoom-in;
+        }
+        .gallery-item-link img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+        .gallery-arrow {
+            position: absolute; top: 50%; z-index: 10; transform: translateY(-50%);
+            width: 40px; height: 40px; border: 0; border-radius: 50%;
+            background: transparent; color: #b18f6a; font-size: 34px; line-height: 1;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .gallery-arrow:hover { background: rgba(177, 143, 106, 0.12); }
+        .gallery-prev { left: 4px; }
+        .gallery-next { right: 4px; }
+
+        /* ==================== 幸福側寫：縮圖 ==================== */
+        .gallery-thumbs { width: 100%; padding: 16px 50px 4px; }
+        .gallery-thumbs .swiper-slide {
+            width: 90px; height: 90px;
+            border-radius: 10px; overflow: hidden; cursor: pointer;
+            border: 2px solid transparent; opacity: 0.5;
+            transition: opacity 0.25s ease, border-color 0.25s ease;
+        }
+        .gallery-thumbs .swiper-slide:hover { opacity: 0.85; }
+        .gallery-thumbs .swiper-slide.is-active { opacity: 1; border-color: #b18f6a; }
+        .gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* ==================== 全螢幕檢視器 ==================== */
+        .viewer { position: fixed; inset: 0; z-index: 9999; background: rgba(40, 32, 31, 0.96); display: none; }
+        .viewer.open { display: block; }
+        .viewer-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
+        .viewer-stage img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            user-select: none; -webkit-user-drag: none; will-change: transform;
+        }
+        .viewer-btn {
+            position: absolute; z-index: 20; border: 0; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18); color: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .viewer-btn:hover { background: rgba(255, 255, 255, 0.32); }
+        .viewer-close { right: 16px; top: calc(12px + env(safe-area-inset-top, 0px)); width: 44px; height: 44px; font-size: 22px; }
+        .viewer-nav { top: 50%; transform: translateY(-50%); width: 48px; height: 48px; font-size: 30px; padding-bottom: 4px; }
+        .viewer-prev { left: 14px; }
+        .viewer-next { right: 14px; }
+        .viewer-count {
+            position: absolute; z-index: 20; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            text-align: center; color: #fff; font-size: 14px; letter-spacing: 2px; pointer-events: none;
+        }
+
+        /* ==================== 故事卡片 ==================== */
         .story-card { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 20px; border: 1px solid rgba(228, 203, 189, 0.3); }
         #announcement .story-card { display: block; text-align: center; padding: 40px 20px; }
         #announcement .story-card i { margin: 0 auto 20px auto; font-size: 35px; color: #b18f6a; }
@@ -42,149 +102,43 @@
         .info-item { display: flex; align-items: center; gap: 12px; }
         .info-icon { color: #b18f6a; width: 25px; text-align: center; }
         .info-text p { font-size: 16px; color: #5c4a42; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif; white-space: nowrap; }
-        
+        .story-content { white-space: nowrap; }
         .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* 相簿側寫：單張大圖 + 縮圖滾軸 */
-        .gallery-top { max-width: 1400px; margin: 0 auto; padding: 20px 0 0; }
-        .gallery-message { font-size: 16px; text-align: center; color: #808080; }
-        .gallery-container { margin-bottom: 40px; }
-
-        .gallery-main-wrap { position: relative; padding: 0 50px; }
-        .gallery-main { width: 100%; padding: 0; }
-        .gallery-main .swiper-slide { height: auto; }
-        .gallery-item-link {
-            display: flex; align-items: center; justify-content: center;
-            width: 100%;
-            height: clamp(360px, 70vh, 720px);
-            border-radius: 16px; overflow: hidden;
-            background: rgba(255, 255, 255, 0.6);
-            cursor: zoom-in;
-        }
-        .gallery-item-link img { width: 100%; height: 100%; object-fit: contain; display: block; }
-
-        .swiper-button-next, .swiper-button-prev { color: #b18f6a !important; }
-        .swiper-button-prev { left: 0 !important; }
-        .swiper-button-next { right: 0 !important; }
-
-        /* 縮圖滾軸 */
-        .gallery-thumbs { width: 100%; padding: 16px 50px 4px; }
-        .gallery-thumbs .swiper-slide {
-            width: 90px; height: 90px;
-            border-radius: 10px; overflow: hidden;
-            opacity: 0.5; cursor: pointer;
-            border: 2px solid transparent;
-            transition: opacity 0.25s ease, border-color 0.25s ease;
-        }
-        .gallery-thumbs .swiper-slide:hover { opacity: 0.85; }
-        .gallery-thumbs .swiper-slide-thumb-active { opacity: 1; border-color: #b18f6a; }
-        .gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-        @media (max-width: 767px) {
-            .gallery-main-wrap { padding: 0 30px; }
-            .gallery-item-link { height: clamp(300px, 60vh, 520px); }
-            .swiper-button-prev { left: -5px !important; }
-            .swiper-button-next { right: -5px !important; }
-            .gallery-thumbs { padding: 12px 20px 4px; }
-            .gallery-thumbs .swiper-slide { width: 64px; height: 64px; }
-        }
-
-        /* 全螢幕檢視器（支援手機滑動、雙指縮放、雙擊放大） */
-        .viewer { position: fixed; inset: 0; z-index: 9999; background: rgba(40, 32, 31, 0.96); display: none; }
-        .viewer.open { display: block; }
-        .viewer-swiper { width: 100%; height: 100%; }
-        .viewer-swiper .swiper-slide { display: flex; align-items: center; justify-content: center; }
-        .viewer-swiper .swiper-zoom-container > img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .viewer-btn {
-            position: absolute; z-index: 20; border: 0; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.18); color: #fff; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            pointer-events: auto; -webkit-tap-highlight-color: transparent;
-        }
-        .viewer-btn:hover { background: rgba(255, 255, 255, 0.3); }
-        .viewer-close {
-            right: 16px; top: calc(12px + env(safe-area-inset-top, 0px));
-            width: 44px; height: 44px; font-size: 22px; line-height: 1;
-        }
-        .viewer-nav { top: 50%; transform: translateY(-50%); width: 48px; height: 48px; font-size: 30px; line-height: 1; padding-bottom: 4px; }
-        .viewer-prev { left: 14px; }
-        .viewer-next { right: 14px; }
-        .viewer-count {
-            position: absolute; z-index: 20; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-            text-align: center; color: #fff; font-size: 14px; letter-spacing: 2px; pointer-events: none;
-        }
-        @media (hover: none) { .viewer-nav { display: none; } }
-
-        /* 中間文字區塊：強制不折行 */
-        .story-content {
-            white-space: nowrap;
-        }
-
-        /* 電腦版設定 (>= 1100px)：空間足夠時才展開三欄橫向排版 */
+        /* 電腦版 (>= 1100px)：三欄橫向排版 */
         @media (min-width: 1100px) {
-            .story-card { 
-                display: grid; 
-                grid-template-columns: 180px 1px auto 280px; 
-                gap: 30px; 
-                align-items: center; 
-                padding: 35px 40px; 
-            }
-            .story-info { 
-                border-bottom: 0; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: center; 
-                gap: 10px; 
-                margin-bottom: 0; 
-                padding-bottom: 0; 
-            }
-            .divider { 
-                display: block;
-                background-color: rgba(228, 203, 189, 0.5); 
-                width: 1px; 
-                height: 100%; 
-            }
-            .story-content { 
-                padding: 0 10px; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: center; 
-            }
-            .story-frame { 
-                margin-top: 0; 
-                width: 280px; 
-                aspect-ratio: 4 / 5; 
-                max-height: 380px; 
-            }
+            .story-card { display: grid; grid-template-columns: 180px 1px auto 280px; gap: 30px; align-items: center; padding: 35px 40px; }
+            .story-info { border-bottom: 0; justify-content: center; gap: 10px; margin-bottom: 0; padding-bottom: 0; }
+            .divider { display: block; background-color: rgba(228, 203, 189, 0.5); width: 1px; height: 100%; }
+            .story-content { padding: 0 10px; display: flex; flex-direction: column; justify-content: center; }
+            .story-frame { margin-top: 0; width: 280px; aspect-ratio: 4 / 5; max-height: 380px; }
         }
 
-        /* 窄螢幕/平板/手機 (< 1100px)：只要空間不足以完全放下不折行的文字，就立刻轉為單欄 */
+        /* 窄螢幕 (< 1100px)：轉為單欄 */
         @media (max-width: 1099px) {
             .divider { display: none; }
-            .story-card {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding: 30px 20px;
-            }
-            .story-info {
-                border-bottom: 1px solid rgba(228, 203, 189, 0.3);
-                padding-bottom: 15px;
-                margin-bottom: 15px;
-                width: 100%;
-                align-items: center;
-            }
-            .story-content {
-                white-space: normal; /* 轉為單欄時恢復自然換行，符合手機閱讀習慣 */
-                text-align: center;
-            }
-            .story-frame {
-                width: 100%;
-                max-width: 320px;
-                margin-top: 20px;
-            }
+            .story-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 30px 20px; }
+            .story-info { border-bottom: 1px solid rgba(228, 203, 189, 0.3); padding-bottom: 15px; margin-bottom: 15px; width: 100%; align-items: center; }
+            .story-content { white-space: normal; text-align: center; }
+            .story-frame { width: 100%; max-width: 320px; margin-top: 20px; }
+        }
+
+        /* 手機 (< 768px) */
+        @media (max-width: 767px) {
+            header { padding: 16px 20px; }
+            nav { gap: 16px; }
+            nav a { font-size: 15px; }
+            .gallery-main-wrap { padding: 0 24px; }
+            .gallery-item-link { height: clamp(300px, 60vh, 520px); }
+            .gallery-arrow { width: 32px; height: 32px; font-size: 28px; }
+            .gallery-prev { left: -2px; }
+            .gallery-next { right: -2px; }
+            .gallery-thumbs { padding: 12px 20px 4px; }
+            .gallery-thumbs .swiper-slide { width: 64px; height: 64px; }
+            .viewer-nav { width: 40px; height: 40px; font-size: 26px; }
+            .viewer-prev { left: 8px; }
+            .viewer-next { right: 8px; }
         }
     </style>
 </head>
@@ -197,7 +151,7 @@
         <nav>
             <a href="#gallery">幸福側寫</a>
             <a href="#announcement">分享喜悅</a>
-            <a href="#story">極光之約</a>            
+            <a href="#story">極光之約</a>
         </nav>
     </header>
 
@@ -215,17 +169,16 @@
         <!-- 幸福側寫 -->
         <section id="gallery" class="gallery-top">
             <h2 class="section-title">幸福側寫</h2>
-            <!--<h4 class="gallery-message">♡ 婚紗照製作中，Coming Soon...♡</h4>-->
             <div class="gallery-container">
                 <!-- 主圖：永遠一次一張 -->
                 <div class="gallery-main-wrap">
                     <div class="swiper gallery-main">
                         <div class="swiper-wrapper" id="main-wrapper"></div>
                     </div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
+                    <button type="button" class="gallery-arrow gallery-prev" id="gallery-prev" aria-label="上一張">‹</button>
+                    <button type="button" class="gallery-arrow gallery-next" id="gallery-next" aria-label="下一張">›</button>
                 </div>
-                <!-- 縮圖滾軸：點擊即切換主圖 -->
+                <!-- 縮圖滾軸 -->
                 <div class="swiper gallery-thumbs">
                     <div class="swiper-wrapper" id="thumbs-wrapper"></div>
                 </div>
@@ -243,7 +196,7 @@
                 </p>
             </div>
         </section>
-        
+
         <section id="story">
             <h2 class="section-title">極光之約</h2>
             <div class="story-card">
@@ -288,8 +241,8 @@
 
     <!-- 全螢幕照片檢視器 -->
     <div class="viewer" id="viewer" aria-hidden="true">
-        <div class="swiper viewer-swiper">
-            <div class="swiper-wrapper" id="viewer-wrapper"></div>
+        <div class="viewer-stage" id="viewer-stage">
+            <img id="viewer-img" alt="" draggable="false">
         </div>
         <button type="button" class="viewer-btn viewer-close" id="viewer-close" aria-label="關閉">✕</button>
         <button type="button" class="viewer-btn viewer-nav viewer-prev" id="viewer-prev" aria-label="上一張">‹</button>
@@ -298,87 +251,86 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
-        // 1. 自動渲染主圖與縮圖
-        const totalImages = 9; 
-        const mainWrapper = document.getElementById('main-wrapper');
-        const thumbsWrapper = document.getElementById('thumbs-wrapper');
+    (function () {
+        'use strict';
 
-        let mainHTML = '';
-        let thumbsHTML = '';
-        for (let i = 1; i <= totalImages; i++) {
+        /* ==================== 設定 ==================== */
+        const TOTAL = 9;                              // 照片張數（./pic/pic1.webp ~ pic9.webp）
+        const SLIDE_MS = 600;                         // 主圖換張動畫時間
+        const photo = i => `./pic/pic${i + 1}.webp`;  // i 為 0 起算的索引
+        const $ = id => document.getElementById(id);
+
+        /* ==================== 1. 渲染主圖與縮圖 ==================== */
+        let mainHTML = '', thumbsHTML = '';
+        for (let i = 0; i < TOTAL; i++) {
             mainHTML += `
                 <div class="swiper-slide">
-                    <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}" data-index="${i-1}">
-                        <img src="./pic/pic${i}.webp" alt="回憶 ${i}">
+                    <a href="${photo(i)}" class="gallery-item-link" data-index="${i}">
+                        <img src="${photo(i)}" alt="回憶 ${i + 1}" decoding="async"${i === 0 ? '' : ' loading="lazy"'}>
                     </a>
                 </div>`;
             thumbsHTML += `
-                <div class="swiper-slide" data-index="${i-1}">
-                    <img src="./pic/pic${i}.webp" alt="縮圖 ${i}" loading="lazy">
+                <div class="swiper-slide" data-index="${i}">
+                    <img src="${photo(i)}" alt="縮圖 ${i + 1}" loading="lazy" decoding="async">
                 </div>`;
         }
-        mainWrapper.innerHTML = mainHTML;
-        thumbsWrapper.innerHTML = thumbsHTML;
+        $('main-wrapper').innerHTML = mainHTML;
+        $('thumbs-wrapper').innerHTML = thumbsHTML;
 
-        // 2. 縮圖滾軸
+        /* ==================== 2. 主圖輪播（無限循環、一次一張） ==================== */
+        const mainSwiper = new Swiper('.gallery-main', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            speed: SLIDE_MS
+        });
+
         const thumbsSwiper = new Swiper('.gallery-thumbs', {
             slidesPerView: 'auto',
             spaceBetween: 10,
             freeMode: true
         });
 
-        // 3. 主圖：無限循環、任何螢幕大小都固定 1 張
-        const mainSwiper = new Swiper('.gallery-main', {
-            loop: true,
-            slidesPerView: 1,
-            spaceBetween: 20,
-            navigation: {
-                nextEl: '.gallery-main-wrap .swiper-button-next',
-                prevEl: '.gallery-main-wrap .swiper-button-prev',
-            }
-        });
-
-        // 4. 主圖與縮圖同步（用 realIndex，避開循環複製出來的假頁面）
-        const thumbSlides = document.querySelectorAll('.gallery-thumbs .swiper-slide');
-
-        function setThumbs(idx) {
-            thumbSlides.forEach((el, i) => el.classList.toggle('swiper-slide-thumb-active', i === idx));
-            thumbsSwiper.slideTo(idx);
-        }
-        function syncThumbs() {
-            setThumbs(mainSwiper.realIndex);
-        }
-        mainSwiper.on('slideChange', syncThumbs);
-        syncThumbs();
-
-        // 點縮圖 → 永遠以「往下一張」的方向滑過去，不倒退、不經過中間的照片
+        const thumbEls = document.querySelectorAll('.gallery-thumbs .swiper-slide');
         let jumping = false;
-        const SLIDE_MS = 600;
 
-        function goForwardTo(target) {
-            const n = totalImages;
+        function highlightThumb(idx) {
+            thumbEls.forEach((el, i) => el.classList.toggle('is-active', i === idx));
+            thumbsSwiper.slideTo(idx, 300);
+        }
+        mainSwiper.on('slideChange', () => highlightThumb(mainSwiper.realIndex));
+        highlightThumb(0);
+
+        /* 左右箭頭 */
+        $('gallery-prev').addEventListener('click', () => { if (!jumping) mainSwiper.slidePrev(SLIDE_MS); });
+        $('gallery-next').addEventListener('click', () => { if (!jumping) mainSwiper.slideNext(SLIDE_MS); });
+
+        /* 點縮圖：永遠以「往下一張」的方向滑過去（不倒退、不經過中間的照片） */
+        async function goForwardTo(target) {
             const cur = mainSwiper.realIndex;
             if (jumping || target === cur) return;
 
-            // 剛好是下一張：直接用原生動畫
-            if ((target - cur + n) % n === 1) {
+            if ((target - cur + TOTAL) % TOTAL === 1) {   // 剛好是下一張
                 mainSwiper.slideNext(SLIDE_MS);
                 return;
             }
 
-            // 其他張：用一層「覆蓋圖」從右邊滑進來，目前這張同步往左滑出；
-            // 動畫結束後，在覆蓋圖底下悄悄切到真正的那一張，再移除覆蓋圖（全程不露出其他照片）
             jumping = true;
-            setThumbs(target);
+            highlightThumb(target);
+
+            // 先確定目標照片已載入，避免滑進來時是空白
+            const pre = new Image();
+            pre.src = photo(target);
+            try { await pre.decode(); } catch (e) { /* 載入失敗就照常繼續 */ }
 
             const host = document.querySelector('.gallery-main');
-            const step = mainSwiper.width + 20;   // 20 = spaceBetween
+            const step = mainSwiper.width + 20;           // 20 = spaceBetween
+            const source = document.querySelector(
+                `.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a[data-index="${target}"]`
+            );
 
-            const source = document.querySelectorAll(
-                '.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a.gallery-item-link'
-            )[target];
+            // 在主圖上疊一層目標照片從右邊滑進來，目前這張同步往左滑出
             const overlay = document.createElement('div');
             overlay.style.cssText = 'position:absolute;inset:0;z-index:5;pointer-events:none;';
             overlay.appendChild(source.cloneNode(true));
@@ -394,68 +346,76 @@
                 { duration: SLIDE_MS, easing: ease, fill: 'forwards' }
             );
 
+            // 結束後在覆蓋圖底下悄悄切到真正的那一張，再移除覆蓋圖
             anim.onfinish = () => {
-                mainSwiper.slideToLoop(target, 0, false);   // 不觸發事件，覆蓋圖仍蓋在上面
+                mainSwiper.slideToLoop(target, 0, false);
                 requestAnimationFrame(() => requestAnimationFrame(() => {
                     overlay.remove();
                     jumping = false;
-                    syncThumbs();
+                    highlightThumb(mainSwiper.realIndex);
                 }));
             };
         }
+        thumbEls.forEach((el, i) => el.addEventListener('click', () => goForwardTo(i)));
 
-        thumbSlides.forEach((el, i) => {
-            el.addEventListener('click', () => goForwardTo(i));
-        });
+        /* ==================== 3. 全螢幕檢視器 ==================== */
+        const viewer = $('viewer');
+        const stage = $('viewer-stage');
+        const vImg = $('viewer-img');
+        const vCount = $('viewer-count');
 
-        // 5. 全螢幕檢視器：手機可左右滑動換張、雙指縮放、雙擊放大
-        const viewer = document.getElementById('viewer');
-        const viewerWrapper = document.getElementById('viewer-wrapper');
-        const viewerCount = document.getElementById('viewer-count');
-        let viewerSwiper = null;
+        let vIndex = 0;                 // 目前檢視的照片
+        let scale = 1, tx = 0, ty = 0;  // 縮放與位移
 
-        let viewerHTML = '';
-        for (let i = 1; i <= totalImages; i++) {
-            viewerHTML += `<div class="swiper-slide"><div class="swiper-zoom-container"><img src="./pic/pic${i}.webp" alt="回憶 ${i}"></div></div>`;
+        const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+        function applyTransform() {
+            vImg.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
         }
-        viewerWrapper.innerHTML = viewerHTML;
-
-        function updateCount() {
-            viewerCount.textContent = `${viewerSwiper.realIndex + 1} / ${totalImages}`;
+        function limitPan() {
+            const maxX = Math.max(0, (vImg.clientWidth * scale - stage.clientWidth) / 2);
+            const maxY = Math.max(0, (vImg.clientHeight * scale - stage.clientHeight) / 2);
+            tx = clamp(tx, -maxX, maxX);
+            ty = clamp(ty, -maxY, maxY);
         }
+        function resetZoom() {
+            scale = 1; tx = 0; ty = 0;
+            applyTransform();
+        }
+        function preload(i) { new Image().src = photo((i + TOTAL) % TOTAL); }
 
-        function openViewer(index) {
+        function showPhoto(i, dir) {
+            vIndex = i;
+            vImg.src = photo(i);
+            vImg.alt = `回憶 ${i + 1}`;
+            vCount.textContent = `${i + 1} / ${TOTAL}`;
+            resetZoom();
+            if (dir) {
+                vImg.animate(
+                    [{ opacity: 0, transform: `translateX(${dir * 60}px)` }, { opacity: 1, transform: 'translateX(0)' }],
+                    { duration: 220, easing: 'ease-out' }
+                );
+            }
+            preload(i + 1);
+            preload(i - 1);
+        }
+        function step(dir) { showPhoto((vIndex + dir + TOTAL) % TOTAL, dir); }
+
+        function openViewer(i) {
             viewer.classList.add('open');
             viewer.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
-
-            if (!viewerSwiper) {
-                viewerSwiper = new Swiper('.viewer-swiper', {
-                    loop: true,
-                    initialSlide: index,
-                    zoom: { maxRatio: 3 },
-                    keyboard: { enabled: true },
-                    spaceBetween: 20,
-                    on: { slideChange: updateCount }
-                });
-            } else {
-                try { viewerSwiper.zoom.out(); } catch (err) {}
-                viewerSwiper.slideToLoop(index, 0);
-            }
-            updateCount();
+            showPhoto(i, 0);
         }
-
         function closeViewer() {
             viewer.classList.remove('open');
             viewer.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
-            if (!viewerSwiper) return;
-            const idx = viewerSwiper.realIndex;
-            try { viewerSwiper.zoom.out(); } catch (err) {}
-            mainSwiper.slideToLoop(idx, 0);   // 關閉後主圖停在剛看的那張
+            const i = vIndex;
+            requestAnimationFrame(() => mainSwiper.slideToLoop(i, 0));   // 主圖停在剛看的那張
         }
 
-        // 點主圖（含循環複製的頁面）→ 開啟檢視器
+        /* 點主圖開啟檢視器（含循環複製出來的頁面） */
         document.querySelector('.gallery-main').addEventListener('click', e => {
             const link = e.target.closest('a.gallery-item-link');
             if (!link) return;
@@ -463,12 +423,111 @@
             openViewer(Number(link.dataset.index));
         });
 
-        document.getElementById('viewer-close').addEventListener('click', closeViewer);
-        document.getElementById('viewer-prev').addEventListener('click', () => { if (viewerSwiper) viewerSwiper.slidePrev(); });
-        document.getElementById('viewer-next').addEventListener('click', () => { if (viewerSwiper) viewerSwiper.slideNext(); });
+        /* 按鈕與鍵盤 */
+        $('viewer-close').addEventListener('click', closeViewer);
+        $('viewer-prev').addEventListener('click', () => step(-1));
+        $('viewer-next').addEventListener('click', () => step(1));
         document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && viewer.classList.contains('open')) closeViewer();
+            if (!viewer.classList.contains('open')) return;
+            if (e.key === 'Escape') closeViewer();
+            else if (e.key === 'ArrowLeft') step(-1);
+            else if (e.key === 'ArrowRight') step(1);
         });
+
+        /* 手勢：單指左右滑＝換張、雙指＝縮放、放大後單指＝拖曳、連點兩下＝放大/還原 */
+        const pointers = new Map();
+        let gesture = null;
+        let lastTapTime = 0;
+
+        function beginGesture() {
+            const pts = [...pointers.values()];
+            gesture = {
+                count: pts.length,
+                time: Date.now(),
+                x: pts[0].x, y: pts[0].y,
+                dx: 0, dy: 0,
+                tx, ty, scale,
+                dist: pts.length >= 2 ? Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) : 0,
+                moved: false
+            };
+        }
+
+        function toggleZoom(cx, cy) {
+            if (scale > 1) { resetZoom(); return; }
+            const r = stage.getBoundingClientRect();
+            scale = 2.5;
+            tx = (r.left + r.width / 2 - cx) * (scale - 1);
+            ty = (r.top + r.height / 2 - cy) * (scale - 1);
+            limitPan();
+            applyTransform();
+        }
+
+        stage.addEventListener('pointerdown', e => {
+            stage.setPointerCapture(e.pointerId);
+            pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            beginGesture();
+        });
+
+        stage.addEventListener('pointermove', e => {
+            if (!pointers.has(e.pointerId) || !gesture) return;
+            pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            const pts = [...pointers.values()];
+
+            if (pts.length >= 2) {                         // 雙指縮放
+                const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+                scale = clamp(gesture.scale * d / (gesture.dist || d), 1, 4);
+                limitPan();
+                applyTransform();
+                gesture.moved = true;
+            } else {                                       // 單指
+                gesture.dx = pts[0].x - gesture.x;
+                gesture.dy = pts[0].y - gesture.y;
+                if (Math.hypot(gesture.dx, gesture.dy) > 8) gesture.moved = true;
+                if (scale > 1) {                           // 放大後拖曳
+                    tx = gesture.tx + gesture.dx;
+                    ty = gesture.ty + gesture.dy;
+                    limitPan();
+                    applyTransform();
+                }
+            }
+        });
+
+        function endPointer(e, cancelled) {
+            if (!pointers.has(e.pointerId)) return;
+            pointers.delete(e.pointerId);
+
+            if (pointers.size > 0) {                       // 還有手指在螢幕上，重新計算基準
+                beginGesture();
+                gesture.moved = true;
+                return;
+            }
+            if (!gesture) return;
+            const g = gesture;
+            gesture = null;
+
+            if (scale < 1.05) resetZoom();
+            if (cancelled) return;
+
+            if (!g.moved && Date.now() - g.time < 300) {   // 點一下 → 偵測連點兩下
+                const now = Date.now();
+                if (now - lastTapTime < 300) { toggleZoom(e.clientX, e.clientY); lastTapTime = 0; }
+                else lastTapTime = now;
+            } else if (scale === 1 && g.count === 1 && Math.abs(g.dx) > 50 && Math.abs(g.dx) > Math.abs(g.dy) * 1.5) {
+                step(g.dx < 0 ? 1 : -1);                   // 左滑＝下一張、右滑＝上一張
+            }
+        }
+        stage.addEventListener('pointerup', e => endPointer(e, false));
+        stage.addEventListener('pointercancel', e => endPointer(e, true));
+
+        /* 電腦滾輪縮放 */
+        stage.addEventListener('wheel', e => {
+            e.preventDefault();
+            scale = clamp(scale * (e.deltaY < 0 ? 1.15 : 1 / 1.15), 1, 4);
+            if (scale < 1.02) { scale = 1; tx = 0; ty = 0; }
+            limitPan();
+            applyTransform();
+        }, { passive: false });
+    })();
     </script>
 </body>
 </html>
