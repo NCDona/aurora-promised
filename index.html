@@ -47,22 +47,48 @@
         .story-frame { width: 100%; margin-top: 20px; border-radius: 12px; overflow: hidden; aspect-ratio: 1 / 1; }
         .story-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* 相簿側寫（置頂、放大版） */
-        .gallery-top { max-width: 1400px; margin: 0 auto; padding: 20px 20px 0; }
+        /* 相簿側寫：單張大圖 + 縮圖滾軸 */
+        .gallery-top { max-width: 1400px; margin: 0 auto; padding: 20px 0 0; }
         .gallery-message { font-size: 16px; text-align: center; color: #808080; }
-        .gallery-container { position: relative; margin-bottom: 40px; padding: 0 50px; }
-        .swiper { width: 100%; padding: 20px 0; }
-        .gallery-item-link { display: block; border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; cursor: zoom-in; transition: transform 0.3s ease; }
-        .gallery-item-link:hover { transform: translateY(-5px); }
-        .gallery-item-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-container { margin-bottom: 40px; }
+
+        .gallery-main-wrap { position: relative; padding: 0 50px; }
+        .gallery-main { width: 100%; padding: 0; }
+        .gallery-main .swiper-slide { height: auto; }
+        .gallery-item-link {
+            display: flex; align-items: center; justify-content: center;
+            width: 100%;
+            height: clamp(360px, 70vh, 720px);
+            border-radius: 16px; overflow: hidden;
+            background: rgba(255, 255, 255, 0.6);
+            cursor: zoom-in;
+        }
+        .gallery-item-link img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
         .swiper-button-next, .swiper-button-prev { color: #b18f6a !important; }
         .swiper-button-prev { left: 0 !important; }
         .swiper-button-next { right: 0 !important; }
 
+        /* 縮圖滾軸 */
+        .gallery-thumbs { width: 100%; padding: 16px 50px 4px; }
+        .gallery-thumbs .swiper-slide {
+            width: 90px; height: 90px;
+            border-radius: 10px; overflow: hidden;
+            opacity: 0.5; cursor: pointer;
+            border: 2px solid transparent;
+            transition: opacity 0.25s ease, border-color 0.25s ease;
+        }
+        .gallery-thumbs .swiper-slide:hover { opacity: 0.85; }
+        .gallery-thumbs .swiper-slide-thumb-active { opacity: 1; border-color: #b18f6a; }
+        .gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
         @media (max-width: 767px) {
-            .gallery-container { padding: 0 30px; }
+            .gallery-main-wrap { padding: 0 30px; }
+            .gallery-item-link { height: clamp(300px, 60vh, 520px); }
             .swiper-button-prev { left: -5px !important; }
             .swiper-button-next { right: -5px !important; }
+            .gallery-thumbs { padding: 12px 20px 4px; }
+            .gallery-thumbs .swiper-slide { width: 64px; height: 64px; }
         }
 
         /* Lightbox 燈箱套件調色 */
@@ -156,8 +182,6 @@
         </nav>
     </header>
 
-   
-
     <section class="hero-section">
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
@@ -169,16 +193,23 @@
 
     <div class="container">
 
-         <!-- 幸福側寫（移到最上方） -->
+        <!-- 幸福側寫 -->
         <section id="gallery" class="gallery-top">
             <h2 class="section-title">幸福側寫</h2>
             <!--<h4 class="gallery-message">♡ 婚紗照製作中，Coming Soon...♡</h4>-->
             <div class="gallery-container">
-                <div class="swiper">
-                    <div class="swiper-wrapper" id="swiper-wrapper"></div>
+                <!-- 主圖：永遠一次一張 -->
+                <div class="gallery-main-wrap">
+                    <div class="swiper gallery-main">
+                        <div class="swiper-wrapper" id="main-wrapper"></div>
+                    </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
+                <!-- 縮圖滾軸：點擊即切換主圖 -->
+                <div class="swiper gallery-thumbs">
+                    <div class="swiper-wrapper" id="thumbs-wrapper"></div>
+                </div>
             </div>
         </section>
 
@@ -240,38 +271,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.js"></script>
 
     <script>
-        // 1. 自動渲染圖片迴圈
+        // 1. 自動渲染主圖與縮圖
         const totalImages = 9; 
-        const wrapper = document.getElementById('swiper-wrapper');
+        const mainWrapper = document.getElementById('main-wrapper');
+        const thumbsWrapper = document.getElementById('thumbs-wrapper');
 
-        if (wrapper) {
-            for (let i = 1; i <= totalImages; i++) {
-                wrapper.innerHTML += `
-                    <div class="swiper-slide">
-                        <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}">
-                            <img src="./pic/pic${i}.webp" alt="回憶 ${i}" loading="lazy">
-                        </a>
-                    </div>`;
-            }
+        let mainHTML = '';
+        let thumbsHTML = '';
+        for (let i = 1; i <= totalImages; i++) {
+            mainHTML += `
+                <div class="swiper-slide">
+                    <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}">
+                        <img src="./pic/pic${i}.webp" alt="回憶 ${i}" loading="lazy">
+                    </a>
+                </div>`;
+            thumbsHTML += `
+                <div class="swiper-slide">
+                    <img src="./pic/pic${i}.webp" alt="縮圖 ${i}" loading="lazy">
+                </div>`;
         }
+        mainWrapper.innerHTML = mainHTML;
+        thumbsWrapper.innerHTML = thumbsHTML;
 
-        // 2. 初始化 Swiper（放大版）
-        const swiper = new Swiper('.swiper', {
-            loop: true,
+        // 2. 先初始化縮圖滾軸
+        const thumbsSwiper = new Swiper('.gallery-thumbs', {
+            slidesPerView: 'auto',
+            spaceBetween: 10,
+            freeMode: true,
+            watchSlidesProgress: true,
+            slideToClickedSlide: false
+        });
+
+        // 3. 再初始化主圖（任何螢幕大小都固定 1 張）
+        const mainSwiper = new Swiper('.gallery-main', {
             slidesPerView: 1,
-            spaceBetween: 15,
+            spaceBetween: 20,
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-            breakpoints: {
-                768:  { slidesPerView: 2, spaceBetween: 20 },
-                1400: { slidesPerView: 3, spaceBetween: 24 }
+            thumbs: {
+                swiper: thumbsSwiper
             }
         });
 
-        // 3. 初始化 Lightbox
-        var lightbox = new SimpleLightbox('.gallery-container a.gallery-item-link', {
+        // 4. 初始化 Lightbox（點主圖可全螢幕檢視）
+        var lightbox = new SimpleLightbox('.gallery-main a.gallery-item-link', {
             captionsData: 'data-title',
             closeText: '✕',
             navText: ['‹', '›'],
