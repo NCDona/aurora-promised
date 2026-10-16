@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+TC:wght@300;400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.css" />
     
     <style>
         /* 基礎設定 */
@@ -91,11 +90,25 @@
             .gallery-thumbs .swiper-slide { width: 64px; height: 64px; }
         }
 
-        /* Lightbox 燈箱套件調色 */
-        .sl-overlay { background: rgba(74, 62, 61, 0.9) !important; }
-        .sl-wrapper .sl-close { color: #ffffff; }
-        .sl-wrapper .sl-navigation button { color: #ffffff; font-size: 4rem !important; }
-        .sl-wrapper .sl-spinner { color: #ffffff; }
+        /* 全螢幕檢視器（支援手機滑動、雙指縮放、雙擊放大） */
+        .viewer { position: fixed; inset: 0; z-index: 9999; background: rgba(40, 32, 31, 0.96); display: none; }
+        .viewer.open { display: block; }
+        .viewer-swiper { width: 100%; height: 100%; }
+        .viewer-swiper .swiper-slide { display: flex; align-items: center; justify-content: center; }
+        .viewer-swiper .swiper-zoom-container > img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .viewer-close {
+            position: absolute; z-index: 10; right: 16px; top: calc(12px + env(safe-area-inset-top, 0px));
+            width: 44px; height: 44px; border: 0; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15); color: #fff; font-size: 22px; line-height: 1; cursor: pointer;
+        }
+        .viewer-count {
+            position: absolute; z-index: 10; left: 0; right: 0; bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            text-align: center; color: #fff; font-size: 14px; letter-spacing: 2px; pointer-events: none;
+        }
+        .viewer .swiper-button-next, .viewer .swiper-button-prev { color: #fff !important; }
+        .viewer .swiper-button-prev { left: 12px !important; }
+        .viewer .swiper-button-next { right: 12px !important; }
+        @media (hover: none) { .viewer .swiper-button-next, .viewer .swiper-button-prev { display: none; } }
 
         /* 中間文字區塊：強制不折行 */
         .story-content {
@@ -267,8 +280,18 @@
         <a href="#logo" style="color: #b18f6a; text-decoration: none; font-size: 14px;">回到最上方 ↑</a>
     </footer>
 
+    <!-- 全螢幕照片檢視器 -->
+    <div class="viewer" id="viewer" aria-hidden="true">
+        <button class="viewer-close" id="viewer-close" aria-label="關閉">✕</button>
+        <div class="swiper viewer-swiper">
+            <div class="swiper-wrapper" id="viewer-wrapper"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        <div class="viewer-count" id="viewer-count"></div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.0/simple-lightbox.min.js"></script>
 
     <script>
         // 1. 自動渲染主圖與縮圖
@@ -379,24 +402,68 @@
             el.addEventListener('click', () => goForwardTo(i));
         });
 
-        // 5. Lightbox：只綁定原始（非複製）的圖片，避免重複
-        const lightbox = new SimpleLightbox(
-            '.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a.gallery-item-link',
-            {
-                captionsData: 'data-title',
-                closeText: '✕',
-                navText: ['‹', '›'],
-                loadingText: '載入中...',
-            }
-        );
+        // 5. 全螢幕檢視器：手機可左右滑動換張、雙指縮放、雙擊放大
+        const viewer = document.getElementById('viewer');
+        const viewerWrapper = document.getElementById('viewer-wrapper');
+        const viewerCount = document.getElementById('viewer-count');
+        let viewerSwiper = null;
 
-        // 循環複製出來的頁面被點到時，開啟對應的原始圖片
-        const originalLinks = document.querySelectorAll('.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a.gallery-item-link');
-        document.querySelectorAll('.gallery-main .swiper-slide-duplicate a.gallery-item-link').forEach(a => {
-            a.addEventListener('click', e => {
-                e.preventDefault();
-                lightbox.open(originalLinks[Number(a.dataset.index)]);
-            });
+        let viewerHTML = '';
+        for (let i = 1; i <= totalImages; i++) {
+            viewerHTML += `<div class="swiper-slide"><div class="swiper-zoom-container"><img src="./pic/pic${i}.webp" alt="回憶 ${i}"></div></div>`;
+        }
+        viewerWrapper.innerHTML = viewerHTML;
+
+        function updateCount() {
+            viewerCount.textContent = `${viewerSwiper.realIndex + 1} / ${totalImages}`;
+        }
+
+        function openViewer(index) {
+            viewer.classList.add('open');
+            viewer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            if (!viewerSwiper) {
+                viewerSwiper = new Swiper('.viewer-swiper', {
+                    loop: true,
+                    initialSlide: index,
+                    zoom: { maxRatio: 3 },
+                    keyboard: { enabled: true },
+                    spaceBetween: 20,
+                    navigation: {
+                        nextEl: '.viewer .swiper-button-next',
+                        prevEl: '.viewer .swiper-button-prev',
+                    },
+                    on: { slideChange: updateCount }
+                });
+            } else {
+                viewerSwiper.zoom.out();
+                viewerSwiper.slideToLoop(index, 0);
+            }
+            updateCount();
+        }
+
+        function closeViewer() {
+            if (!viewerSwiper) return;
+            const idx = viewerSwiper.realIndex;
+            viewerSwiper.zoom.out();
+            viewer.classList.remove('open');
+            viewer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            mainSwiper.slideToLoop(idx, 0);   // 關閉後主圖停在剛看的那張
+        }
+
+        // 點主圖（含循環複製的頁面）→ 開啟檢視器
+        document.querySelector('.gallery-main').addEventListener('click', e => {
+            const link = e.target.closest('a.gallery-item-link');
+            if (!link) return;
+            e.preventDefault();
+            openViewer(Number(link.dataset.index));
+        });
+
+        document.getElementById('viewer-close').addEventListener('click', closeViewer);
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && viewer.classList.contains('open')) closeViewer();
         });
     </script>
 </body>
