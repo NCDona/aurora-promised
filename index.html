@@ -281,47 +281,70 @@
         for (let i = 1; i <= totalImages; i++) {
             mainHTML += `
                 <div class="swiper-slide">
-                    <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}">
+                    <a href="./pic/pic${i}.webp" class="gallery-item-link" data-title="回憶 ${i}" data-index="${i-1}">
                         <img src="./pic/pic${i}.webp" alt="回憶 ${i}" loading="lazy">
                     </a>
                 </div>`;
             thumbsHTML += `
-                <div class="swiper-slide">
+                <div class="swiper-slide" data-index="${i-1}">
                     <img src="./pic/pic${i}.webp" alt="縮圖 ${i}" loading="lazy">
                 </div>`;
         }
         mainWrapper.innerHTML = mainHTML;
         thumbsWrapper.innerHTML = thumbsHTML;
 
-        // 2. 先初始化縮圖滾軸
+        // 2. 縮圖滾軸
         const thumbsSwiper = new Swiper('.gallery-thumbs', {
             slidesPerView: 'auto',
             spaceBetween: 10,
-            freeMode: true,
-            watchSlidesProgress: true,
-            slideToClickedSlide: false
+            freeMode: true
         });
 
-        // 3. 再初始化主圖（任何螢幕大小都固定 1 張）
+        // 3. 主圖：無限循環、任何螢幕大小都固定 1 張
         const mainSwiper = new Swiper('.gallery-main', {
+            loop: true,
             slidesPerView: 1,
             spaceBetween: 20,
-            rewind: true,   // 最後一張按下一張 → 回到第一張；第一張按上一張 → 跳到最後一張
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
-            },
-            thumbs: {
-                swiper: thumbsSwiper
             }
         });
 
-        // 4. 初始化 Lightbox（點主圖可全螢幕檢視）
-        var lightbox = new SimpleLightbox('.gallery-main a.gallery-item-link', {
-            captionsData: 'data-title',
-            closeText: '✕',
-            navText: ['‹', '›'],
-            loadingText: '載入中...',
+        // 4. 主圖與縮圖同步（用 realIndex，避開循環複製出來的假頁面）
+        const thumbSlides = document.querySelectorAll('.gallery-thumbs .swiper-slide');
+
+        function syncThumbs() {
+            const idx = mainSwiper.realIndex;
+            thumbSlides.forEach((el, i) => el.classList.toggle('swiper-slide-thumb-active', i === idx));
+            thumbsSwiper.slideTo(idx);
+        }
+        mainSwiper.on('slideChange', syncThumbs);
+        syncThumbs();
+
+        // 點縮圖 → 主圖切換到對應照片
+        thumbSlides.forEach((el, i) => {
+            el.addEventListener('click', () => mainSwiper.slideToLoop(i));
+        });
+
+        // 5. Lightbox：只綁定原始（非複製）的圖片，避免重複
+        const lightbox = new SimpleLightbox(
+            '.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a.gallery-item-link',
+            {
+                captionsData: 'data-title',
+                closeText: '✕',
+                navText: ['‹', '›'],
+                loadingText: '載入中...',
+            }
+        );
+
+        // 循環複製出來的頁面被點到時，開啟對應的原始圖片
+        const originalLinks = document.querySelectorAll('.gallery-main .swiper-slide:not(.swiper-slide-duplicate) a.gallery-item-link');
+        document.querySelectorAll('.gallery-main .swiper-slide-duplicate a.gallery-item-link').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                lightbox.open(originalLinks[Number(a.dataset.index)]);
+            });
         });
     </script>
 </body>
