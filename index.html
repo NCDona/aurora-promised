@@ -31,7 +31,18 @@
         .hero-names i { font-size: 0.6em; display: inline-block; vertical-align: middle; }
         .hero-tagline { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 6px; margin-bottom: 10px; opacity: 0.9; }
 
+        /* ==================== 喜餅介紹區塊（目前以註解停用，樣式保留） ==================== */
+        .gift-section { margin: 35px auto; padding: 0; max-width: 800px; }
+        .gift-note { background: rgba(255, 255, 255, 0.55); border: 1px dashed #d0c4ba; border-radius: 16px; padding: 25px 20px; text-align: center; }
+        .gift-badge { display: inline-block; font-size: 0.85rem; color: #b18f6a; letter-spacing: 1px; margin-bottom: 6px; font-weight: 500; }
+        .gift-title { font-size: 1.2rem; color: #4a4a4a; margin: 4px 0 8px 0; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px; }
+        .gift-title .brand-name { font-size: 0.95rem; color: #726259; font-weight: 500; }
+        .gift-title .box-name { color: #b18f6a; font-weight: 700; font-size: 1.25rem; }
+        .gift-quote { font-style: italic; font-size: 0.85rem; color: #7a7a7a; margin: 10px 0; font-family: 'Georgia', serif; }
+        .gift-desc { font-size: 0.88rem; line-height: 1.75; color: #666; margin: 0; }
+
         /* ==================== 幸福側寫：主圖 ==================== */
+        .gallery-message { font-size: 16px; text-align: center; color: #808080; }
         .gallery-top { max-width: 1400px; margin: 0 auto; padding: 20px 0 0; }
         .gallery-container { margin-bottom: 40px; }
 
@@ -156,6 +167,7 @@
             <a href="#gallery">幸福側寫</a>
             <a href="#announcement">分享喜悅</a>
             <a href="#story">極光之約</a>
+            <!--<a href="#gift-box">關於禮盒</a>-->
         </nav>
     </header>
 
@@ -173,6 +185,7 @@
         <!-- 幸福側寫 -->
         <section id="gallery" class="gallery-top">
             <h2 class="section-title">幸福側寫</h2>
+            <!-- <h4 class="gallery-message">♡ 婚紗照製作中，Coming Soon...♡</h4>-->
             <div class="gallery-container">
                 <!-- 主圖：永遠一次一張 -->
                 <div class="gallery-main-wrap">
@@ -195,7 +208,7 @@
                 <h3 style="font-family: 'Noto Serif TC', serif; font-size: 22px; color: #5c4a42; margin-bottom: 25px;">分享喜悅</h3>
                 <p style="font-size: 15px; color: #726259; line-height: 1.8; max-width: 550px; margin: 0 auto;">
                     我們已於 2026 年 9 月 19 日完成結婚登記。<br>
-                    雖然選擇以簡單的方式邁向新階段，<br>
+                    雖然選擇以簡單的方式邁向新階段，沒有舉辦婚宴，<br>
                     但仍想把這份喜悅分享給最重視的你。<br>
                 </p>
             </div>
@@ -210,7 +223,7 @@
                     <div class="info-item"><div class="info-icon"><i class="fa-solid fa-location-dot"></i></div><div class="info-text"><p>阿拉斯加．費爾班克斯</p></div></div>
                 </div>
                 <div class="divider"></div>
-                <div class="story-content">
+                 <div class="story-content">
                     <p>人們說，看見極光就會幸福一輩子。<br>
                         從 2018 年相識，到跨越距離與時差的考驗，<br>
                         把等待熬成了默契，思念淬鍊成了堅定。<br>
@@ -229,6 +242,24 @@
                 <div class="story-frame"><img src="aurora_2.webp" alt="故事照" loading="lazy"></div>
             </div>
         </section>
+
+       <!-- <section id="gift-box" class="gift-section">
+            <div class="gift-note">
+                <div class="gift-header">
+                    <span class="gift-badge">♡ 關於我們的禮盒 ♡</span>
+                    <h3 class="gift-title">卡柏蒂 CUPETIT ─《極光之約》</h3>
+                    <span class="gift-brand">與數位藝術家 Damonxart 聯名創作</span>
+                </div>
+
+                <div class="gift-body">
+                    <p class="gift-quote">“ When lights dance above, hearts find their way. ”</p>
+                    <p class="gift-desc">
+                        以極光的色彩與幾何光影交織，<br>構築超越現實的浪漫宇宙。<br>
+                        宛如一封寫給宇宙的情書，<br>紀錄專屬於這座星空下的浪漫語境。
+                    </p>
+                </div>
+            </div>
+        </section>-->
     </div>
 
     <footer style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; color: #726259; border-top: 1px solid rgba(224, 203, 189, 0.5); margin-top: 50px;">
@@ -260,9 +291,10 @@
         'use strict';
 
         /* ==================== 設定 ==================== */
-        const TOTAL = 20;                              // 照片張數（./pic/pic1.webp ~ pic9.webp）
+        const TOTAL = 20;                             // 照片張數（./pic/pic1.webp ~ pic20.webp）
         const SLIDE_MS = 600;                         // 主圖換張動畫時間
-        const photo = i => `./pic/pic${i + 1}.webp`;  // i 為 0 起算的索引
+        const photo = i => `./pic/pic${i + 1}.webp`;        // 大圖（主圖、放大檢視）
+        const thumb = i => `./pic/thumb/pic${i + 1}.webp`;  // 小圖（縮圖列），找不到時自動改用大圖
         const $ = id => document.getElementById(id);
 
         /* ==================== 1. 渲染主圖與縮圖 ==================== */
@@ -276,7 +308,8 @@
                 </div>`;
             thumbsHTML += `
                 <div class="swiper-slide" data-index="${i}">
-                    <img src="${photo(i)}" alt="縮圖 ${i + 1}" loading="lazy" decoding="async">
+                    <img src="${thumb(i)}" alt="縮圖 ${i + 1}" loading="lazy" decoding="async"
+                         onerror="this.onerror=null;this.src='${photo(i)}'">
                 </div>`;
         }
         $('main-wrapper').innerHTML = mainHTML;
@@ -536,3 +569,4 @@
     </script>
 </body>
 </html>
+               
