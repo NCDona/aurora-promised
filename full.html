@@ -291,9 +291,10 @@
         'use strict';
 
         /* ==================== 設定 ==================== */
-        const TOTAL = 20;                              // 照片張數（./pic/pic1.webp ~ pic9.webp）
+        const TOTAL = 20;                             // 照片張數（./pic/pic1.webp ~ pic20.webp）
         const SLIDE_MS = 600;                         // 主圖換張動畫時間
-        const photo = i => `./pic/pic${i + 1}.webp`;  // i 為 0 起算的索引
+        const photo = i => `./pic/pic${i + 1}.webp`;        // 大圖（主圖、放大檢視）
+        const thumb = i => `./pic/thumb/pic${i + 1}.webp`;  // 小圖（縮圖列），找不到時自動改用大圖
         const $ = id => document.getElementById(id);
 
         /* ==================== 1. 渲染主圖與縮圖 ==================== */
@@ -307,7 +308,8 @@
                 </div>`;
             thumbsHTML += `
                 <div class="swiper-slide" data-index="${i}">
-                    <img src="${photo(i)}" alt="縮圖 ${i + 1}" loading="lazy" decoding="async">
+                    <img src="${thumb(i)}" alt="縮圖 ${i + 1}" loading="lazy" decoding="async"
+                         onerror="this.onerror=null;this.src='${photo(i)}'">
                 </div>`;
         }
         $('main-wrapper').innerHTML = mainHTML;
